@@ -16,7 +16,17 @@ db = SQLAlchemy(app)
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
+    login_form = LoginForm()
+    app.jinja_env.globals['login_form'] = login_form
+    app.jinja_env.globals['logged'] = False
 
+    if login_form.validate_on_submit():
+        app.jinja_env.globals['logged'] = True
+        return render_template("index.html")
+    return render_template("index.html")
+
+@app.route('/register/', methods=['GET', 'POST'])
+def register():
     reg_form = RegistrationForm()
 
     if reg_form.validate_on_submit():
@@ -28,26 +38,9 @@ def index():
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('login'))
-    
-    
+        return redirect(url_for('index'))
 
-    return render_template('index.html', form=reg_form)
-    
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-
-    login_form = LoginForm()
-
-    # Allow login if validation success
-    if login_form.validade_on_submit():
-        return "Logged in, finally!"
-
-    return render_template("login.html", form=login_form)
-
-@app.route('/register/')
-def register():
-    return render_template('register.html')
+    return render_template('register.html', form=reg_form)
 
 @app.route('/search/')
 def search():

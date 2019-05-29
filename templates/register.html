@@ -4,18 +4,39 @@
 
 </div>
 <div class="container">
-    <form class="form-signin">
+    <form action="{{url_for('register')}}", method="POST" class="form-signin navbar-form navbar-right">
         <h2 class="form-signin-heading">Please register to start solving our colleagues lives (and maybe save yourself)</h2>
-        <label for="inputName">Full Name:</label>
-        <input type="text" id="inputName" class="form-control" placeholder="Chuck Norris" required autofocus>
-        <label for="inputEmail">Email address:</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="chuck@norris.com" required autofocus>
-        <label for="inputPassword">Password:</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <label for="inputVerify">Verify Password:</label>
-        <input type="password" id="inputVerify" class="form-control" placeholder="Verify Password" required>
+        <label for="fullname">Full Name:</label>
+        {{ form.fullname(class_='form-control', placeholder='Chuck Norris', autocomplete='off', autofocus=true)}}
+        <ul>
+            {% for error in form.fullname.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        <label for="username">Email address:</label>
+        {{ form.username(class_='form-control', placeholder='chuck@norris.com', autocomplete='off', autofocus=true)}}
+        <ul>
+            {% for error in form.username.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        <label for="password">Password:</label>
+        {{ form.password(class_='form-control', placeholder='Password')}}
+        <ul>
+            {% for error in form.password.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        <label for="confirm_pswd">Verify Password:</label>
+        {{ form.confirm_pswd(class_='form-control', placeholder='Retype Password')}}
+        <ul>
+            {% for error in form.confirm_pswd.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
         <label for="register"></label>
         <button id="register" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        {{ form.csrf_token }}
     </form>
 </div> <!-- /container -->
 {% endblock %}
