@@ -32,16 +32,44 @@
                     <a id="navbar-logo-text" class="navbar-brand" href="/">Solutionary</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
-                    <form class="navbar-form navbar-right">
-                        <div class="form-group">
-                        <input type="text" placeholder="Email" class="form-control">
-                        </div>
-                        <div class="form-group">
-                        <input type="password" placeholder="Password" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Sign in</button>
-                        <a href="/register" class="btn btn-success">Register</a>    
-                    </form>
+                        <form action="{{url_for('index')}}", method="POST" class="navbar-form navbar-right">
+                            <div class="form-group">
+                                {{ form.username(class_='form-control',
+                                    placeholder='Username', autocomplete='off',
+                                    autofocus=true)}}
+                                <ul>
+                                    {% for error in form.username.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            <!-- <input type="text" placeholder="Email" class="form-control">-->
+                            </div>
+                            <div class="form-group">
+                                    {{ form.password(class_='form-control',
+                                    placeholder='Password')}}
+        
+                                    <ul>
+                                        {% for error in form.password.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+        
+                             <!-- <input type="password" placeholder="Password" class="form-control">-->
+                            </div>
+                            <div class="form-group">
+                                    {{ form.confirm_pswd(class_='form-control',
+                                    placeholder='Retype Password')}}
+        
+                                    <ul>
+                                        {% for error in form.confirm_pswd.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                             <!-- <input type="password" placeholder="Password" class="form-control">-->
+                            </div>
+                            <input type="submit" value="Create" class="btn btn-warning">
+                            {{ form.csrf_token }}
+                        </form>
                     </div><!--/.navbar-collapse -->
                 </div>
             </nav>
