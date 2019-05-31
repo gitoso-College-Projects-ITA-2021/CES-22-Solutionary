@@ -29,12 +29,15 @@ def index():
 def register():
     reg_form = RegistrationForm()
 
+    # Updated database if validation success
     if reg_form.validate_on_submit():
         username = reg_form.username.data
         password = reg_form.password.data
 
+        hashed_pswd = pbkdf2_sha256.hash(password)
+
         # Add it into DB
-        user = User(username=username, password=password)
+        user = User(username=username, password=hashed_pswd)
         db.session.add(user)
         db.session.commit()
 
