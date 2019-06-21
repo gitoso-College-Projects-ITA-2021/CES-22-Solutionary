@@ -1,5 +1,9 @@
 {% extends "bootstrap/base.html" %}
 
+{% block title %}
+Solutionary
+{% endblock %}
+
 {% block styles %}
 {{super()}}
 <link href="https://fonts.googleapis.com/css?family=Nunito|Roboto+Slab&display=swap" rel="stylesheet">
@@ -7,16 +11,18 @@
 {% endblock %}
 
 {% block navbar %}
-{% for error in form.username.errors %}
-<div class="alert alert-danger alert-full-width" role="alert">
-    <b>{{ error }}</b>
-</div>
-{% endfor %}
-{% for error in form.password.errors %}
-<div class="alert alert-danger alert-full-width" role="alert">
-    <b>{{ error }}</b>
-</div>
-{% endfor %}
+{% if form is defined %}
+    {% for error in form.username.errors %}
+    <div class="alert alert-danger alert-full-width" role="alert">
+        <b>{{ error }}</b>
+    </div>
+    {% endfor %}
+    {% for error in form.password.errors %}
+    <div class="alert alert-danger alert-full-width" role="alert">
+        <b>{{ error }}</b>
+    </div>
+    {% endfor %}
+{% endif %}
 <nav class="navbar navbar-default navbar-inverse">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->

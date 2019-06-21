@@ -71,3 +71,7 @@ def red_search():
 @app.route('/project/<project_id>')
 def project(project_id):
     return render_template('')
+
+@app.route('/quill')
+def quill():
+    return render_template('quill.html')
