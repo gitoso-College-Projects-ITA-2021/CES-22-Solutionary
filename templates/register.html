@@ -1,8 +1,6 @@
-{% extends "layout.html" %}
-{% block body %}
-<div class ="spacer">
+{% extends "topbar.html" %}
 
-</div>
+{% block content %}
 <div class="container">
     <form action="{{url_for('register')}}", method="POST" class="form-signin navbar-form navbar-right">
         <h2 class="form-signin-heading">Please register to start solving our colleagues lives (and maybe save yourself)</h2>
@@ -38,5 +36,5 @@
         <button id="register" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
         {{ form.csrf_token }}
     </form>
-</div> <!-- /container -->
+</div>
 {% endblock %}

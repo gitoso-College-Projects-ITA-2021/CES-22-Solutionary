@@ -1,0 +1,44 @@
+{% extends "bootstrap/base.html" %}
+
+{% block styles %}
+{{super()}}
+<link href="https://fonts.googleapis.com/css?family=Nunito|Roboto+Slab&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{url_for('.static', filename='solutionary.css')}}">
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-default navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+        <a class="navbar-brand" id="navbar-logo-text" href="#">Solutionary</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <!-- <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Link</a></li>
+        </ul> -->
+        {% if current_user.is_authenticated %}
+        <form class="navbar-form navbar-right">
+                <p>
+                    Hello {{ current_user.username }}!    
+                </p>
+        </form>
+        {% else %}
+        <form action="{{url_for('index')}}", method="POST" class="navbar-form navbar-right">
+            <div class="form-group">
+            {{ form.username(class_='form-control', placeholder='Username', autocomplete='off', autofocus=true)}}
+            </div>
+            <div class="form-group">
+            {{ form.password(class_='form-control', placeholder='Password')}}
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+            <a class="btn btn-primary" href="/register">Register</a>
+            {{ form.csrf_token }}
+        </form>
+        {% endif %}
+        </div>
+    </div>
+</nav>
+{% endblock %}

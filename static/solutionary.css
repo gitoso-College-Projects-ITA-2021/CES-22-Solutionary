@@ -26,6 +26,12 @@ footer {
     margin-top: 100px;
 }
 
+.alert-full-width {
+    margin: 0px;
+    width: 100%;
+    border-radius: 0px;
+}
+
 #main-middle-bar {
     color: #99B898;
     background-color: #2A363B;

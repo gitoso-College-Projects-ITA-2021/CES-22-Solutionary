@@ -21,12 +21,9 @@ def index():
     if login_form.validate_on_submit():
         user_object = User.query.filter_by(username=login_form.username.data).first()
         login_user(user_object)
-        if current_user.is_authenticated:
-            return "Logged in with flask-login!"
+        return redirect(url_for('index'))
 
-        return render_template("index.html")
-
-    return render_template("index.html")
+    return render_template("index.html", form=login_form)
 
 @app.route("/private", methods=['GET', 'POST'])
 @login_required
