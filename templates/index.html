@@ -1,38 +1,11 @@
-{% extends "layout.html" %}
-{% block body %}
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div id="main-middle-bar" class="jumbotron">
-    <div class="container">
-        <h1>Welcome to Solutionary!</h1>
-        <p>Learn, Solve, Share, Repeat!</p>
-        <p><a class="btn btn-primary btn-lg" href="/search" role="button">Search projects &raquo;</a></p>
-    </div>
-</div>
-    
-<div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col-md-4">
-        <h2>Create your Own Project</h2>
-        <p>Start a repository of questions, share with your colleagues and start solving together!</p>
-        <p><a class="btn btn-default btn-dark" href="/project/create_project" role="button">Create &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-        <h2>Explore the library</h2>
-        <p>See featured projects from other users or search solution for your textbook problems.</p>
-        <p><a class="btn btn-default btn-dark" href="/search" role="button">Explore &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-        <h2>Register now</h2>
-        <p>Don't know where to start? Register an account to have free acess to all Solutionary features.</p>
-        <p><a class="btn btn-default btn-dark" href="/register" role="button">Register &raquo;</a></p>
-    </div>
-</div>
+{% extends "bootstrap/base.html" %}
 
+{% block title %}Solutionary Home{% endblock %}
 
-<footer>
-    <hr>
-    <p>COMP-21 - Disciplina de CES-22 (Instituto Tecnológico de Aeronáutica)</p>
-</footer>
-</div> <!-- /container -->          
+{% block navbar %}
+{{nav.mynavbar.render()}}
+{% endblock %}
+
+{% block content %}
+  <h1>Content</h1>
 {% endblock %}
