@@ -7,6 +7,7 @@ from app import app, db
 login = LoginManager(app)
 login.init_app(app)
 
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -25,7 +26,7 @@ def index():
 
         return render_template("index.html")
 
-    return render_template("form_simples.html", form=login_form)
+    return render_template("index.html")
 
 @app.route("/private", methods=['GET', 'POST'])
 @login_required
