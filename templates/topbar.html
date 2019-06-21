@@ -7,6 +7,16 @@
 {% endblock %}
 
 {% block navbar %}
+{% for error in form.username.errors %}
+<div class="alert alert-danger alert-full-width" role="alert">
+    <b>{{ error }}</b>
+</div>
+{% endfor %}
+{% for error in form.password.errors %}
+<div class="alert alert-danger alert-full-width" role="alert">
+    <b>{{ error }}</b>
+</div>
+{% endfor %}
 <nav class="navbar navbar-default navbar-inverse">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -20,11 +30,11 @@
             <li><a href="#">Link</a></li>
         </ul> -->
         {% if current_user.is_authenticated %}
-        <form class="navbar-form navbar-right">
-                <p>
-                    Hello {{ current_user.username }}!    
-                </p>
-        </form>
+        <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">My Projects</a></li>
+                <li><a href="#">Search Projects</a></li>
+                <li><a href="#">Hello {{ current_user.username }}! <span class="sr-only">(current)</span></a></li>
+        </ul>
         {% else %}
         <form action="{{url_for('index')}}", method="POST" class="navbar-form navbar-right">
             <div class="form-group">
