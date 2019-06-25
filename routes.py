@@ -96,8 +96,8 @@ def project():
         db.session.add(project)
         db.session.commit()
         
-
-        return redirect(url_for('index'))
+        return display_projects()
+        #return redirect(url_for('index'))
 
     # Deleta
     if form_name == 'delete' and del_proj_form.validate_on_submit():
@@ -110,10 +110,11 @@ def project():
             db.session.delete(project_object)
             db.session.commit()
         
-        return redirect(url_for('index'))
+        return display_projects()
+        #return redirect(url_for('index'))
 
-
-    return render_template('projects.html', form=proj_form, del_form=del_proj_form)
+    return display_projects()
+    #return render_template('projects.html', form=proj_form, del_form=del_proj_form)
 
 @app.route('/project/<string:name>', methods=['POST'])
 @login_required
@@ -134,9 +135,11 @@ def delete_project(name):
 @login_required
 def display_projects():
     projects = Project.query.all()
+    my_projects = Project.query.filter_by(owner=load_user( current_user.id ).id)
     proj_form = ProjectForm()
     del_proj_form = DeleteProjectForm()
-    return render_template('projects.html', form=proj_form, del_form=del_proj_form)
+    return render_template('projects.html', form=proj_form, del_form=del_proj_form, projects=projects,
+    my_projects=my_projects)
 
 #@app.route('/project/<project_id>')
 #def project(project_id):

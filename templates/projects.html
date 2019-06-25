@@ -44,6 +44,26 @@
   </div>
   
 
+<h4> Projetos </h4>
+<body>
+    {% for project in projects %}
+  
+    <h5>Nome: {{ project.name }} </h5>
+    
+  
+  {% endfor %}
+</body>
+
+<h4> Meus Projetos </h4>
+<body>
+    {% for project in my_projects %}
+  
+    <h5>Nome: {{ project.name }} </h5>
+  
+  {% endfor %}
+</body>
+  
+
   
 </form>
 {% endblock %}
