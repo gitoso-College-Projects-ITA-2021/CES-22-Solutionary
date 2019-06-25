@@ -57,3 +57,11 @@ class ProjectForm(FlaskForm):
         validators=[InputRequired(message="Project name required")])
     
     submit_button = SubmitField('Create')
+
+class DeleteProjectForm(FlaskForm):
+    """ Project Delete Form """
+
+    name = StringField('name_label', 
+        validators=[InputRequired(message="Project name required")])
+    
+    submit_button = SubmitField('Delete')

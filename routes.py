@@ -76,24 +76,53 @@ def search():
 def project():
 
     proj_form = ProjectForm()
+    del_proj_form = DeleteProjectForm()
 
-    if proj_form.validate_on_submit():
+    if del_proj_form.submit_button.data and del_proj_form.validate_on_submit():
+
+        name = del_proj_form.name.data
+        # Check name exists
+        project_object = Project.query.filter_by(name=name).first()
+        if project_object:
+            db.session.delete(project_object)
+            db.session.commit()
+        
+        return redirect(url_for('index'))
+
+    if proj_form.submit_button.data and proj_form.validate_on_submit():
         name = proj_form.name.data
 
         # Check name exists
         project_object = Project.query.filter_by(name=name).first()
         if project_object:
-            render_template('projects.html', form=proj_form)
+            render_template('projects.html', form=proj_form, del_form=del_proj_form)
         # Add it into DB
         id = load_user( current_user.id ).id
         project = Project(name=name, owner=id)
         db.session.add(project)
         db.session.commit()
+        
 
         return redirect(url_for('index'))
 
-    return render_template('projects.html', form=proj_form)
     
+
+    return render_template('projects.html', form=proj_form, del_form=del_proj_form)
+
+@app.route('/project/<sting:name>', methods=['POST'])
+@login_required
+def delete_project(name):
+    # Check name exists
+        project_object = Project.query.filter_by(name=name).first()
+        if project_object:
+            render_template('projects.html', form=ProjectForm(), del_form=DeleteProjectForm())
+        # Add it into DB
+        id = load_user( current_user.id ).id
+        project = Project(name=name, owner=id)
+        db.session.add(project)
+        db.session.commit()
+    
+    return redirect(url_for('index'))
 
 #@app.route('/project/<project_id>')
 #def project(project_id):
