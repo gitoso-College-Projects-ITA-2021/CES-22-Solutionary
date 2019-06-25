@@ -1,45 +1,38 @@
+{% extends "topbar.html" %}
+
 {% block title %} Project {% endblock %}
+
 {% block content %}
+<div class="container">
+  <form id="1" action="{{url_for('project')}}" method="POST">
+    {{ create_form.csrf_token }}
+    <div>
+        {{ create_form.name(class_='form-control', placeholder='Ogata', autocomplete='off', autofocus=true)}}
+        <ul>
+            {% for error in create_form.name.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+      {{ create_form.submit_button}}
+    </div>
+  </form>
 
-<form id="1" action="{{url_for('project')}}" method="POST">
-  {{ form.csrf_token }}
-  <div>
-      {{ form.name(class_='form-control', placeholder='Ogata', autocomplete='off', autofocus=true)}}
- 
-      <ul>
-          {% for error in form.name.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-      </ul>
-      
-  </div>
-
-  <div>
-    {{ form.submit_button}}
-  </div>
-  
-
-  
-</form>
-
-<form id="2" action="{{url_for('project')}}" method="POST">
-  {{ del_form.csrf_token }}
-  <div>
-      {{ del_form.name(class_='form-control', placeholder='a', autocomplete='off', autofocus=true)}}
- 
-      <ul>
-          {% for error in del_form.name.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-      </ul>
-      
-  </div>
-
-  <div>
-    {{ del_form.submit_button}}
-  </div>
-  
-
-  
-</form>
+  <form id="2" action="{{url_for('project')}}" method="POST">
+    {{ del_form.csrf_token }}
+    <div>
+        {{ del_form.name(class_='form-control', placeholder='a', autocomplete='off', autofocus=true)}}
+        <ul>
+            {% for error in del_form.name.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        
+    </div>
+    <div>
+      {{ del_form.submit_button}}
+    </div>
+  </form>
+</div>
 {% endblock %}

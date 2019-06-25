@@ -17,6 +17,7 @@ db = SQLAlchemy(app)
 
 # Import routes
 from routes import *
+db.create_all()
 
 # Start app
 if __name__ == "__main__":

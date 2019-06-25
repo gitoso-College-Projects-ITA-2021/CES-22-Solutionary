@@ -104,27 +104,22 @@ def project():
         return redirect(url_for('index'))
 
     
+    return render_template('projects.html', create_form=proj_form, del_form=del_proj_form)
 
-    return render_template('projects.html', form=proj_form, del_form=del_proj_form)
-
-@app.route('/project/<sting:name>', methods=['POST'])
+@app.route('/project/<string:name>', methods=['POST'])
 @login_required
 def delete_project(name):
     # Check name exists
-        project_object = Project.query.filter_by(name=name).first()
-        if project_object:
-            render_template('projects.html', form=ProjectForm(), del_form=DeleteProjectForm())
-        # Add it into DB
-        id = load_user( current_user.id ).id
-        project = Project(name=name, owner=id)
-        db.session.add(project)
-        db.session.commit()
-    
-    return redirect(url_for('index'))
+    project_object = Project.query.filter_by(name=name).first()
+    if project_object:
+        render_template('projects.html', form=ProjectForm(), del_form=DeleteProjectForm())
+    # Add it into DB
+    id = load_user( current_user.id ).id
+    project = Project(name=name, owner=id)
+    db.session.add(project)
+    db.session.commit()
 
-@app.route('/project/<project_id>')
-def project(project_id):
-    return render_template('')
+    return redirect(url_for('index'))
 
 @app.route('/quill')
 def quill():
