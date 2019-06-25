@@ -1,7 +1,9 @@
 {% block title %} Project {% endblock %}
 {% block content %}
 
-<form id="1" action="{{url_for('project')}}" method="POST">
+<form action="{{url_for('project')}}" method="POST">
+    <input type="hidden" name="form-name" value="add">
+    
   {{ form.csrf_token }}
   <div>
       {{ form.name(class_='form-control', placeholder='Ogata', autocomplete='off', autofocus=true)}}
@@ -22,7 +24,9 @@
   
 </form>
 
-<form id="2" action="{{url_for('project')}}" method="POST">
+<form action="{{url_for('project')}}" method="POST">
+    <input type="hidden" name="form-name" value="delete">
+
   {{ del_form.csrf_token }}
   <div>
       {{ del_form.name(class_='form-control', placeholder='a', autocomplete='off', autofocus=true)}}

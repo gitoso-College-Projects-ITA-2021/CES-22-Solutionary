@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from forms import *
 from app import app, db
@@ -71,25 +71,19 @@ def register():
 def search():
     return render_template('search.html')
 
-@app.route('/project/', methods=['GET', 'POST'])
+@app.route('/project/', methods=['POST'])
 @login_required
 def project():
 
     proj_form = ProjectForm()
     del_proj_form = DeleteProjectForm()
 
-    if del_proj_form.submit_button.data and del_proj_form.validate_on_submit():
+    print(proj_form.submit_button.data)
+    print(del_proj_form.submit_button.data)
 
-        name = del_proj_form.name.data
-        # Check name exists
-        project_object = Project.query.filter_by(name=name).first()
-        if project_object:
-            db.session.delete(project_object)
-            db.session.commit()
-        
-        return redirect(url_for('index'))
-
-    if proj_form.submit_button.data and proj_form.validate_on_submit():
+    form_name = request.form['form-name']
+    # Cria
+    if form_name == 'add' and proj_form.validate_on_submit():
         name = proj_form.name.data
 
         # Check name exists
@@ -105,24 +99,44 @@ def project():
 
         return redirect(url_for('index'))
 
-    
+    # Deleta
+    if form_name == 'delete' and del_proj_form.validate_on_submit():
+
+
+        name = del_proj_form.name.data
+        # Check name exists
+        project_object = Project.query.filter_by(name=name).first()
+        if project_object:
+            db.session.delete(project_object)
+            db.session.commit()
+        
+        return redirect(url_for('index'))
+
 
     return render_template('projects.html', form=proj_form, del_form=del_proj_form)
 
-@app.route('/project/<sting:name>', methods=['POST'])
+@app.route('/project/<string:name>', methods=['POST'])
 @login_required
 def delete_project(name):
     # Check name exists
-        project_object = Project.query.filter_by(name=name).first()
-        if project_object:
-            render_template('projects.html', form=ProjectForm(), del_form=DeleteProjectForm())
-        # Add it into DB
-        id = load_user( current_user.id ).id
-        project = Project(name=name, owner=id)
-        db.session.add(project)
-        db.session.commit()
+    project_object = Project.query.filter_by(name=name).first()
+    if project_object:
+        render_template('projects.html', form=ProjectForm(), del_form=DeleteProjectForm())
+    # Add it into DB
+    id = load_user( current_user.id ).id
+    project = Project(name=name, owner=id)
+    db.session.add(project)
+    db.session.commit()
     
     return redirect(url_for('index'))
+
+@app.route('/project/', methods=['GET'])
+@login_required
+def display_projects():
+    projects = Project.query.all()
+    proj_form = ProjectForm()
+    del_proj_form = DeleteProjectForm()
+    return render_template('projects.html', form=proj_form, del_form=del_proj_form)
 
 #@app.route('/project/<project_id>')
 #def project(project_id):
