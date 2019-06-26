@@ -168,3 +168,24 @@ def quill():
 @login_required
 def temp():
     return render_template('temp.html')
+
+@app.route("/projects/<string:project_name>/create-question", methods=['GET', 'POST'])
+@login_required
+def create_question():
+    proj_form = ProjectForm()
+
+    form_name = request.form['form-name']
+    if form_name == 'add' and proj_form.validate_on_submit():
+        name = proj_form.name.data
+
+        # Check name exists
+        project_object = Project.query.filter_by(name=name).first()
+        if project_object:
+            return projects() # Colocar mensagem de erro se nome for igual
+        # Add it into DB
+        id = load_user( current_user.id ).id
+        project = Project(name=name, owner=id)
+        db.session.add(project)
+        db.session.commit()
+    
+    return projects()
