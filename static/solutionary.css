@@ -1,11 +1,33 @@
 body {
-    color: #FECEAB;
+    /* color: #FECEAB; */
     background-color: #2A363B;
     font-family: 'Nunito', sans-serif;
 }
 
 footer {
     text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #FECEAB;
+}
+
+p {
+    color: #FECEAB;
+}
+
+.orange {
+    color: #FECEAB;
+}
+
+.question-list {
+    -webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important;
+    border-radius: 0px !important; 
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
 }
 
 .btn-dark {
@@ -153,6 +175,10 @@ button.list-group-item:focus {
 
 .unsubscribe-button:focus {
     color: #E84A5F;
+}
+
+.attachment {
+    font-size: 14px;
 }
 
 
