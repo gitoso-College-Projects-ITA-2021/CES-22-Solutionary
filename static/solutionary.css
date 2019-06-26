@@ -8,10 +8,6 @@ footer {
     text-align: center;
 }
 
-form {
-    color: black;
-}
-
 .btn-dark {
     background-image: linear-gradient(to bottom,#2A363B  0,#2A363B  100%);
     color: #fff;
@@ -80,6 +76,64 @@ button.list-group-item:focus {
     background-color: #2A363B;
     color: #FECEAB;
     border: 1px solid #FECEAB;
+}
+
+.create-button {
+    padding: 0 12px 0 12px;
+}
+
+.delete-button {
+    float: right;
+    margin-right: 10px;
+    color: #FECEAB;
+}
+
+.delete-button:hover {
+    color: #E84A5F;
+}
+
+.subscribe-icon:before{
+    content:"\e007"
+}
+
+.subscribe-icon:hover:before{
+    content:"\e006"
+}
+
+.subscribe-button {
+    float: right;
+    margin-right: 10px;
+    color: #FECEAB;
+}
+
+.subscribe-button:hover {
+    color: #FECEAB;
+}
+
+.subscribe-button:focus {
+    color: #FECEAB;
+}
+
+.unsubscribe-icon:before {
+    content:"\e006"
+}
+
+.unsubscribe-icon:hover:before {
+    content:"\e007"
+}
+
+.unsubscribe-button {
+    float: right;
+    margin-right: 10px;
+    color: #FECEAB;
+}
+
+.unsubscribe-button:hover {
+    color: #E84A5F;
+}
+
+.unsubscribe-button:focus {
+    color: #E84A5F;
 }
 
 

@@ -1,7 +1,7 @@
 /                                                               INDEX
                     
 /create-project/                                                [POST] CRIAR PROJETO
-/delete-project/<id>                                            [POST] DELETAR O PROJETO
+/delete-project/                                                [POST] DELETAR O PROJETO
 /edit-project/<id>                                              [POST] EDITAR O PROJETO
                     
 /projects                                                       [GET] DASHBOARD
