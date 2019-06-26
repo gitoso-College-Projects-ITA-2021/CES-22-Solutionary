@@ -32,6 +32,31 @@ footer {
     border-radius: 0px;
 }
 
+.modal-header {
+    background-color: #2A363B;
+    color: #99B898;
+    border-bottom: 1px solid #99B898;
+}
+
+.modal-body {
+    background-color: #2A363B;
+    color: #FF847C;
+}
+
+.modal-footer {
+    background-color: #2A363B;
+    color: #99B898;
+    border-top: 1px solid #99B898;
+}
+
+.modal-close {
+    color: #E84A5F;
+}
+
+.modal-close:hover {
+    color: #E84A5F;
+} 
+
 #main-middle-bar {
     color: #99B898;
     background-color: #2A363B;
@@ -44,4 +69,8 @@ footer {
     font-family: 'Nunito', sans-serif;
     font-size: 24px;
     text-shadow: 0;
+}
+
+#register-modal {
+    color: black;
 }

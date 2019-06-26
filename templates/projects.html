@@ -4,22 +4,24 @@
 
 {% block content %}
 <div class="container">
-  <form id="1" action="{{url_for('project')}}" method="POST">
-    {{ create_form.csrf_token }}
+  <form action="{{url_for('project')}}" method="POST">
+    <input type="hidden" name="form-name" value="add">
+    {{ form.csrf_token }}
     <div>
-        {{ create_form.name(class_='form-control', placeholder='Ogata', autocomplete='off', autofocus=true)}}
+        {{ form.name(class_='form-control', placeholder='Ogata', autocomplete='off', autofocus=true)}}
         <ul>
-            {% for error in create_form.name.errors %}
+            {% for error in form.name.errors %}
             <li>{{ error }}</li>
             {% endfor %}
         </ul>
     </div>
     <div>
-      {{ create_form.submit_button}}
+      {{ form.submit_button}}
     </div>
   </form>
 
-  <form id="2" action="{{url_for('project')}}" method="POST">
+  <form action="{{url_for('project')}}" method="POST">
+    <input type="hidden" name="form-name" value="delete">
     {{ del_form.csrf_token }}
     <div>
         {{ del_form.name(class_='form-control', placeholder='a', autocomplete='off', autofocus=true)}}
