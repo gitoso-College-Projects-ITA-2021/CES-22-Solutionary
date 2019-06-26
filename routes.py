@@ -138,6 +138,27 @@ def display_projects():
     return render_template('projects.html', form=proj_form, del_form=del_proj_form, projects=projects,
     my_projects=my_projects)
 
+@app.route('/projects/', methods=['GET', 'POST'])
+@app.route('/projects/<string:name>', methods=['GET', 'POST'])
+@login_required
+def projects(name=None):
+    search_form = SearchProjects()
+
+    projects = Project.query.all()
+    if not name:
+        if request.method == 'GET':
+            return render_template('projects.html', projects=projects, form=search_form)
+        
+        form_name = request.form['form-name']
+        if form_name == 'search' and search_form.validate_on_submit():
+            name = search_form.name.data
+
+    if name:
+        projects = Project.query.filter_by(name=name)
+
+    return render_template('projects.html', projects=projects, form=search_form)
+
+
 @app.route('/quill')
 def quill():
     return render_template('quill.html')
@@ -146,24 +167,3 @@ def quill():
 @login_required
 def temp():
     return render_template('temp.html')
-
-@app.route('/projects/', methods=['GET', 'POST'])
-@app.route('/projects/<string:name>', methods=['GET', 'POST'])
-@login_required
-def all_projects(name=None):
-    search_form = SearchProjects()
-
-    projects = Project.query.all()
-    if not name:
-        if request.method == 'GET':
-            return render_template('all_projects.html', projects=projects, form=search_form)
-        
-
-        form_name = request.form['form-name']
-        if form_name == 'search' and search_form.validate_on_submit():
-            name = search_form.name.data
-
-    
-    projects = Project.query.filter_by(name=name)
-
-    return render_template('all_projects.html', projects=projects, form=search_form)
