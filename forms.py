@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
 from passlib.hash import pbkdf2_sha256
 
@@ -75,9 +75,11 @@ class SearchProjects(FlaskForm):
     submit_button = SubmitField('Search')
 
 class QuestionForm(FlaskForm):
-    """ Project Form """
+    """ Question Form """
 
     name = StringField('name_label', 
-        validators=[InputRequired(message="Project name required"), Length(min=4)])
+        validators=[InputRequired(message="Question name required"), Length(min=4)])
+    number = IntegerField('number_label', 
+        validators=[InputRequired(message="Question number required"), Length(min=1)])
     
     submit_button = SubmitField('Create')
