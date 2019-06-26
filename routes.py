@@ -135,8 +135,14 @@ def projects():
 def subscribe(project_name=None):
     if not project_name:
         return 'Not possible'   # TODO
-    
+
     project_object = Project.query.filter_by(name=project_name).first()
+    id = load_user( current_user.id ).id
+    
+    # if it is already subscribed, do not subscribe
+    project_user = User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all()
+    if project_user:
+        return redirect(url_for('projects'))
 
     project_object.subscribers.append(current_user)
     db.session.commit()
