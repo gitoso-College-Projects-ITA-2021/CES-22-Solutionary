@@ -7,12 +7,6 @@
     <div class="row">
             <div class="col-lg-12">
                 <h3>Search a Project</h3>
-                <!-- <div class="input-group col-lg-12">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-                    </span>
-                </div> -->
                 <form action="{{url_for('projects')}}" method="POST">
                     <div class="input-group col-lg-12">
                         <input type="hidden" name="form-name" value="search">
@@ -25,7 +19,12 @@
                 </form>
             </div>
             <div class="col-lg-6">
-                <h3>My Projects</h3>
+                <div class="col-lg-6">
+                    <h3>My Projects</h3>
+                </div>
+                <div class="col-lg-6">
+                    <h3><button class="btn btn-success create-button" type="button" data-toggle="modal" data-target="#create-project-modal">Create New Project</button></h3>
+                </div>
                 <div class="list-group col-lg-12">
                     {% for project in my_projects %}
                         <button type="button" class="list-group-item">{{ project.name }} <span class="badge">21</span></button>
@@ -51,4 +50,62 @@
             </div>
         </div>
 </div>
+
+{% if create_project_form is defined %}
+<!-- Modal -->
+<div id="register-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create Project</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{{url_for('')}}", method="POST">
+            <h4 class="form-signin-heading">Create your own project</h4>
+            <label for="fullname">Full Name:</label>
+            {{ register_form.fullname(class_='form-control', placeholder='Chuck Norris', autocomplete='off', autofocus=true)}}
+            <ul>
+                {% for error in register_form.fullname.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            <label for="username">Email address:</label>
+            {{ register_form.username(class_='form-control', placeholder='chuck@norris.com', autocomplete='off', autofocus=true)}}
+            <ul>
+                {% for error in register_form.username.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            <label for="password">Password:</label>
+            {{ register_form.password(class_='form-control', placeholder='Password')}}
+            
+            <ul>
+                {% for error in register_form.password.errors %}
+                <li>{{ error }}</li>
+                    {% endfor %}
+            </ul>
+            <label for="confirm_pswd">Confirm Password:</label>
+            {{ register_form.confirm_pswd(class_='form-control', placeholder='Confirm Password')}}
+                
+                <ul>
+                    {% for error in register_form.confirm_pswd.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            <label for="register"></label>
+            <button id="register" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            {{ register_form.csrf_token }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {% endblock %}

@@ -82,6 +82,10 @@ button.list-group-item:focus {
     border: 1px solid #FECEAB;
 }
 
+.create-button {
+    padding: 0 12px 0 12px;
+}
+
 
 #main-middle-bar {
     color: #99B898;
