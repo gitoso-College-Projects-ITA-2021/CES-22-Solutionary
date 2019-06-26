@@ -42,7 +42,7 @@ def logout():
     logout_user()
     return "Logged out"
 
-@app.route('/register/', methods=['GET', 'POST'])
+@app.route('/register/', methods=['POST'])
 def register():
     reg_form = RegistrationForm()
 
@@ -62,9 +62,7 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        return redirect(url_for('index'))
-
-    return render_template('register.html', form=reg_form)
+    return redirect(url_for('index'))
 
 @app.route('/search/')
 def search():
@@ -136,3 +134,8 @@ def display_projects():
 @app.route('/quill')
 def quill():
     return render_template('quill.html')
+
+@app.route("/temp", methods=['GET', 'POST'])
+@login_required
+def temp():
+    return render_template('temp.html')

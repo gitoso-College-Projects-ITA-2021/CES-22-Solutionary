@@ -50,8 +50,7 @@ Solutionary
             {{ login_form.password(class_='form-control', placeholder='Password')}}
             </div>
             <button type="submit" class="btn btn-success">Login</button>
-            <a class="btn btn-primary" href="/register">Register</a>
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#register-modal">Open Modal</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#register-modal">Register</button>
             {{ login_form.csrf_token }}
         </form>
         {% endif %}

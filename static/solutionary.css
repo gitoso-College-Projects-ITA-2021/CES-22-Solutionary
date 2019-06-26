@@ -8,6 +8,10 @@ footer {
     text-align: center;
 }
 
+form {
+    color: black;
+}
+
 .btn-dark {
     background-image: linear-gradient(to bottom,#2A363B  0,#2A363B  100%);
     color: #fff;
@@ -40,7 +44,7 @@ footer {
 
 .modal-body {
     background-color: #2A363B;
-    color: #FF847C;
+    color: #FECEAB;
 }
 
 .modal-footer {
@@ -55,7 +59,29 @@ footer {
 
 .modal-close:hover {
     color: #E84A5F;
-} 
+}
+
+.list-group-item {
+    background-color: #23272b;
+    border: 1px solid #FECEAB;
+}
+
+button.list-group-item {
+    color: #FECEAB;
+}
+
+button.list-group-item:hover {
+    background-color: #2A363B;
+    color: #FECEAB;
+    border: 1px solid #FECEAB;
+}
+
+button.list-group-item:focus {
+    background-color: #2A363B;
+    color: #FECEAB;
+    border: 1px solid #FECEAB;
+}
+
 
 #main-middle-bar {
     color: #99B898;
