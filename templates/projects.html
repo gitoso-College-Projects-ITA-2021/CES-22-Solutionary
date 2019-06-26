@@ -54,6 +54,15 @@
   {% endfor %}
 </body>
 
+<h4> Subscribed </h4>
+<body>
+    {% for project in subscribed %}
+  
+    <h5>Nome: {{ project.name }} </h5>
+  
+  {% endfor %}
+</body>
+
 <h4> Meus Projetos </h4>
 <body>
     {% for project in my_projects %}
