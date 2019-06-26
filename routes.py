@@ -78,9 +78,6 @@ def project():
     proj_form = ProjectForm()
     del_proj_form = DeleteProjectForm()
 
-    print(proj_form.submit_button.data)
-    print(del_proj_form.submit_button.data)
-
     form_name = request.form['form-name']
     # Cria
     if form_name == 'add' and proj_form.validate_on_submit():
@@ -101,14 +98,17 @@ def project():
 
     # Deleta
     if form_name == 'delete' and del_proj_form.validate_on_submit():
-
-
         name = del_proj_form.name.data
         # Check name exists
         project_object = Project.query.filter_by(name=name).first()
         if project_object:
-            db.session.delete(project_object)
-            db.session.commit()
+            id = load_user( current_user.id ).id
+            if project_object.owner == id:
+                db.session.delete(project_object)
+                db.session.commit()
+            
+            #else TODO
+            # colocar notificação de que não foi possível deletar
         
         return display_projects()
         #return redirect(url_for('index'))
@@ -140,6 +140,35 @@ def display_projects():
     del_proj_form = DeleteProjectForm()
     return render_template('projects.html', form=proj_form, del_form=del_proj_form, projects=projects,
     my_projects=my_projects)
+
+#@app.route('/projects/', methods=['GET'])
+#@login_required
+#def all_projects():
+#    projects = Project.query.all()
+#
+#    search_form = SearchProjects()
+#    return render_template('all_projects.html', projects=projects, form=search_form)
+
+@app.route('/projects/', methods=['GET', 'POST'])
+@app.route('/projects/<string:name>', methods=['GET', 'POST'])
+@login_required
+def all_projects(name=None):
+    search_form = SearchProjects()
+
+    projects = Project.query.all()
+    if not name:
+        if request.method == 'GET':
+            return render_template('all_projects.html', projects=projects, form=search_form)
+        
+
+        form_name = request.form['form-name']
+        if form_name == 'search' and search_form.validate_on_submit():
+            name = search_form.name.data
+
+    
+    projects = Project.query.filter_by(name=name)
+
+    return render_template('all_projects.html', projects=projects, form=search_form)
 
 #@app.route('/project/<project_id>')
 #def project(project_id):
