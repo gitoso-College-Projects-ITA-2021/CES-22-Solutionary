@@ -1,0 +1,117 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Solutionary
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link href="https://fonts.googleapis.com/css?family=Nunito|Roboto+Slab&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{url_for('.static', filename='solutionary.css')}}">
+{% endblock %}
+
+{% block navbar %}
+{% if login_form is defined %}
+    {% for error in login_form.username.errors %}
+    <div class="alert alert-danger alert-full-width" role="alert">
+        <b>{{ error }}</b>
+    </div>
+    {% endfor %}
+    {% for error in login_form.password.errors %}
+    <div class="alert alert-danger alert-full-width" role="alert">
+        <b>{{ error }}</b>
+    </div>
+    {% endfor %}
+{% endif %}
+<nav class="navbar navbar-default navbar-inverse">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+        <a class="navbar-brand" id="navbar-logo-text" href="/">Solutionary</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <!-- <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Link</a></li>
+        </ul> -->
+        {% if current_user.is_authenticated %}
+        <ul class="nav navbar-nav navbar-right">
+                <li><a href=" {{ url_for('projects') }}">Projects</a></li>
+                <li><a href="#">Hello {{ current_user.username }}! <span class="sr-only">(current)</span></a></li>
+        </ul>
+        {% else %}
+        <form action="{{url_for('index')}}", method="POST" class="navbar-form navbar-right">
+            <div class="form-group">
+            {{ login_form.username(class_='form-control', placeholder='Username', autocomplete='off', autofocus=true)}}
+            </div>
+            <div class="form-group">
+            {{ login_form.password(class_='form-control', placeholder='Password')}}
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#register-modal">Register</button>
+            {{ login_form.csrf_token }}
+        </form>
+        {% endif %}
+        </div>
+    </div>
+</nav>
+
+{% if register_form is defined %}
+<!-- Modal -->
+<div id="register-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Register</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{{url_for('register')}}", method="POST">
+            <h4 class="form-signin-heading">Please register to start solving our colleagues lives (and maybe save yourself)</h2>
+            <label for="fullname">Full Name:</label>
+            {{ register_form.fullname(class_='form-control', placeholder='Chuck Norris', autocomplete='off', autofocus=true)}}
+            <ul>
+                {% for error in register_form.fullname.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            <label for="username">Email address:</label>
+            {{ register_form.username(class_='form-control', placeholder='chuck@norris.com', autocomplete='off', autofocus=true)}}
+            <ul>
+                {% for error in register_form.username.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            <label for="password">Password:</label>
+            {{ register_form.password(class_='form-control', placeholder='Password')}}
+            
+            <ul>
+                {% for error in register_form.password.errors %}
+                <li>{{ error }}</li>
+                    {% endfor %}
+            </ul>
+            <label for="confirm_pswd">Confirm Password:</label>
+            {{ register_form.confirm_pswd(class_='form-control', placeholder='Confirm Password')}}
+                
+                <ul>
+                    {% for error in register_form.confirm_pswd.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            <label for="register"></label>
+            <button id="register" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            {{ register_form.csrf_token }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

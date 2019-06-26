@@ -1,0 +1,54 @@
+{% extends "topbar.html" %}
+
+{% block title %} Solutionary {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+            <div class="col-lg-12">
+                <h3>Search a Project</h3>
+                <!-- <div class="input-group col-lg-12">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </span>
+                </div> -->
+                <form action="{{url_for('projects')}}" method="POST">
+                    <div class="input-group col-lg-12">
+                        <input type="hidden" name="form-name" value="search">
+                        {{ form.csrf_token }}
+                        {{ form.name(class_='form-control', placeholder='Search for', autocomplete='off', autofocus=true)}}
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-6">
+                <h3>My Projects</h3>
+                <div class="list-group col-lg-12">
+                    {% for project in my_projects %}
+                        <button type="button" class="list-group-item">{{ project.name }} <span class="badge">21</span></button>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h3>Subscribed Projects</h3>
+                <div class="list-group col-lg-12">
+                    <button type="button" class="list-group-item">Ogata <span class="badge">1323</span></button>
+                    <button type="button" class="list-group-item">Lista do Bafao <span class="badge">666</span></button>
+                </div>
+            </div>
+        </div>
+    <div class="row">
+            <div class="col-lg-12">
+                <h3>Featured Projects</h3>
+                <div class="list-group col-lg-12">
+                    {% for project in projects %}
+                        <button type="button" class="list-group-item">{{ project.name }} <span class="badge">21</span></button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}

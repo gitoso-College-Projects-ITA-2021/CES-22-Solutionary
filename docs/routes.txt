@@ -1,10 +1,20 @@
-/                                     -       HOME
-/dashboard                            -       MY PROJECTS [logged]
-/search                               -       SEARCH PROJECTS
-/project                              -       Redirect to /search
-/project/${project-id}                -       PROJECT TOPICS
-/project/${project-id}/main           -       MAIN LIST (optional)
-/project/${project-id}/${question-id} -       QUESTION TOPIC
-/project/create_project               -       CREATE PROJECT [logged]
-/project/${project-id}/new_solution   -       POST SOLUTION [logged]
-/user                                 -       USER SETTINGS [logged]
+/                                                               INDEX
+                    
+/create-project/                                                [POST] CRIAR PROJETO
+/delete-project/<id>                                            [POST] DELETAR O PROJETO
+/edit-project/<id>                                              [POST] EDITAR O PROJETO
+                    
+/projects                                                       [GET] DASHBOARD
+/projects                                                       [POST] BUSCA DE PROJETOS
+/projects/<project-name>/                                       [GET] PAGINA DO PROJETO
+                    
+/projects/<project-name>/subscribe                              [POST] SUBSCRIBE NO PROJETO
+/projects/<project-name>/unsubscribe                            [POST] UNSUBSCRIBE NO PROJETO
+/projects/<project-name>/create-question/                       [POST] CRIA QUESTAO
+/projects/<project-name>/delete-question/<question-id>          [POST] DELETE QUESTAO
+/projects/<project-name>/edit-question/<question-id>            [POST] EDITAR QUESTAO
+                    
+/projects/<project-name>/<question-id>/                         [GET] PAGINA DA QUESTAO
+/projects/<project-name>/<question-id>/create-solution/         [POST] CRIA SOLUCAO
+/projects/<project-name>/<question-id>/delete-solution/<s-id>   [POST] CRIA SOLUCAO
+/projects/<project-name>/<question-id>/edit-solution/<s-id>     [POST] CRIA SOLUCAO
