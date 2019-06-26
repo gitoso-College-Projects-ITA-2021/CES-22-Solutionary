@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="modal-body">
                                 <h4 class="modal-danger">Você tem certeza que deseja deletar o projeto {{ project.name }}?</h4>
-                                <form id="{{ project.id }}" action="{{url_for('delete_project')}}" method="POST">
+                                <form id="delete-project-{{project.id}}" action="{{url_for('delete_project')}}" method="POST">
                                     <input type="hidden" name="project_id" value="{{project.id}}">
                                     <button id="delete-project" class="btn btn-lg btn-danger btn-block" type="submit">Deletar projeto</button>
                                 </form>
@@ -58,8 +58,10 @@
             <div class="col-lg-6">
                 <h3>Subscribed Projects</h3>
                 <div class="list-group col-lg-12">
-                        {% for project in subscribed_projects %}
-                        <button type="button" class="list-group-item">{{ project.name }} <span class="badge">21</span></button>
+                    {% for project in subscribed_projects %}
+                    <form id="unsubscribe-{{project.id}}" action="/projects/{{project.name}}/unsubscribe" method="POST">
+                        <button type="button" class="list-group-item">{{ project.name }} <span class="badge">21</span><a href='#' class="unsubscribe-button" onclick="document.getElementById('unsubscribe-{{project.id}}').submit()"><span class="glyphicon unsubscribe-icon" aria-hidden="true"></span></a></button>
+                    </form>
                     {% endfor %}
                 </div>
             </div>
@@ -69,8 +71,10 @@
                 <h3>Featured Projects</h3>
                 <div class="list-group col-lg-12">
                     {% for project in projects %}
-                        <button type="button" class="list-group-item">{{ project.name }} <span class="badge">21</span></button>
-                    {% endfor %}
+                        <form id="subscribe-{{project.id}}" action="/projects/{{project.name}}/subscribe" method="POST">
+                            <button type="button" class="list-group-item">{{ project.name }} <span class="badge">21</span><a href='#' class="subscribe-button" onclick="document.getElementById('subscribe-{{project.id}}').submit()"><span class="glyphicon subscribe-icon" aria-hidden="true"></span></a></button>
+                        </form>
+                        {% endfor %}
                 </div>
             </div>
         </div>

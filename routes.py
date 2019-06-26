@@ -199,7 +199,7 @@ def subscribe(project_name=None):
     project_object.subscribers.append(current_user)
     db.session.commit()
 
-    return projects()
+    return redirect(url_for('projects'))
 
 @app.route('/projects/<string:project_name>/unsubscribe', methods=['POST'])
 @login_required
@@ -212,7 +212,7 @@ def unsubscribe(project_name=None):
     project_object.subscribers.remove(current_user)
     db.session.commit()
 
-    return projects()
+    return redirect(url_for('projects'))
 
 
 @app.route('/quill')
