@@ -1,6 +1,43 @@
-{% extends "topbar.html" %}
-
 {% block title %} Project {% endblock %}
+{% block content %}
+
+<form action="{{url_for('project')}}" method="POST">
+    <input type="hidden" name="form-name" value="add">
+    
+  {{ form.csrf_token }}
+  <div>
+      {{ form.name(class_='form-control', placeholder='Ogata', autocomplete='off', autofocus=true)}}
+ 
+      <ul>
+          {% for error in form.name.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+      </ul>
+      
+  </div>
+
+  <div>
+    {{ form.submit_button}}
+  </div>
+  
+
+  
+</form>
+
+<form action="{{url_for('project')}}" method="POST">
+    <input type="hidden" name="form-name" value="delete">
+
+  {{ del_form.csrf_token }}
+  <div>
+      {{ del_form.name(class_='form-control', placeholder='a', autocomplete='off', autofocus=true)}}
+ 
+      <ul>
+          {% for error in del_form.name.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+      </ul>
+      
+  </div>
 
 {% block content %}
 <div class="container">
@@ -20,21 +57,26 @@
     </div>
   </form>
 
-  <form action="{{url_for('project')}}" method="POST">
-    <input type="hidden" name="form-name" value="delete">
-    {{ del_form.csrf_token }}
-    <div>
-        {{ del_form.name(class_='form-control', placeholder='a', autocomplete='off', autofocus=true)}}
-        <ul>
-            {% for error in del_form.name.errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-        
-    </div>
-    <div>
-      {{ del_form.submit_button}}
-    </div>
-  </form>
-</div>
+<h4> Projetos </h4>
+<body>
+    {% for project in projects %}
+  
+    <h5>Nome: {{ project.name }} </h5>
+    
+  
+  {% endfor %}
+</body>
+
+<h4> Meus Projetos </h4>
+<body>
+    {% for project in my_projects %}
+  
+    <h5>Nome: {{ project.name }} </h5>
+  
+  {% endfor %}
+</body>
+  
+
+  
+</form>
 {% endblock %}

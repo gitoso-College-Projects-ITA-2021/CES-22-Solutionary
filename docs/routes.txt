@@ -1,7 +1,6 @@
 /                                     -       HOME
 /dashboard                            -       MY PROJECTS [logged]
-/search                               -       SEARCH PROJECTS
-/project                              -       Redirect to /search
+/project                              -       mostras projetos e com um forms de busca
 /project/${project-id}                -       PROJECT TOPICS
 /project/${project-id}/main           -       MAIN LIST (optional)
 /project/${project-id}/${question-id} -       QUESTION TOPIC
