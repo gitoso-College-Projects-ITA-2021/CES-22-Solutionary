@@ -1,13 +1,13 @@
 /                                                               INDEX
                     
 /create-project/                                                [POST] CRIAR PROJETO
-/delete-project/                                                [POST] DELETAR O PROJETO
+/delete-project/<id>                                            [POST] DELETAR O PROJETO
 /edit-project/<id>                                              [POST] EDITAR O PROJETO
                     
 /projects                                                       [GET] DASHBOARD
 /projects                                                       [POST] BUSCA DE PROJETOS
-/projects/<project-name>/                                       [GET] PAGINA DO PROJETO
-                    
+
+/projects/<project-name>/                                       [GET] PAGINA DO PROJETO                 
 /projects/<project-name>/subscribe                              [POST] SUBSCRIBE NO PROJETO
 /projects/<project-name>/unsubscribe                            [POST] UNSUBSCRIBE NO PROJETO
 /projects/<project-name>/create-question/                       [POST] CRIA QUESTAO
