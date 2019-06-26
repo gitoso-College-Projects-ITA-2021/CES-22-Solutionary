@@ -27,15 +27,40 @@
                 </div>
                 <div class="list-group col-lg-12">
                     {% for project in my_projects %}
-                        <button type="button" class="list-group-item">{{ project.name }} <span class="badge">21</span></button>
+                        <!-- Delete confirmation modal -->
+                        <div id="delete-modal-{{project.id}}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                        
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Atenção</h4>
+                                </div>
+                                <div class="modal-body">
+                                <h4 class="modal-danger">Você tem certeza que deseja deletar o projeto {{ project.name }}?</h4>
+                                <form id="{{ project.id }}" action="{{url_for('delete_project')}}" method="POST">
+                                    <input type="hidden" name="project_id" value="{{project.id}}">
+                                    <button id="delete-project" class="btn btn-lg btn-danger btn-block" type="submit">Deletar projeto</button>
+                                </form>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- End modal -->
+                        <button type="button" class="list-group-item">{{ project.name }} <span class="badge">21</span><a href='#' class="delete-button" data-toggle="modal" data-target="#delete-modal-{{project.id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></button>
                     {% endfor %}
                 </div>
             </div>
             <div class="col-lg-6">
                 <h3>Subscribed Projects</h3>
                 <div class="list-group col-lg-12">
-                    <button type="button" class="list-group-item">Ogata <span class="badge">1323</span></button>
-                    <button type="button" class="list-group-item">Lista do Bafao <span class="badge">666</span></button>
+                        {% for project in subscribed_projects %}
+                        <button type="button" class="list-group-item">{{ project.name }} <span class="badge">21</span></button>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -51,53 +76,25 @@
         </div>
 </div>
 
+
 {% if create_project_form is defined %}
 <!-- Modal -->
-<div id="register-modal" class="modal fade" role="dialog">
+<div id="create-project-modal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Create Project</h4>
+        <h4 class="modal-title">Create new project</h4>
       </div>
       <div class="modal-body">
-        <form action="{{url_for('')}}", method="POST">
-            <h4 class="form-signin-heading">Create your own project</h4>
-            <label for="fullname">Full Name:</label>
-            {{ register_form.fullname(class_='form-control', placeholder='Chuck Norris', autocomplete='off', autofocus=true)}}
-            <ul>
-                {% for error in register_form.fullname.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-            <label for="username">Email address:</label>
-            {{ register_form.username(class_='form-control', placeholder='chuck@norris.com', autocomplete='off', autofocus=true)}}
-            <ul>
-                {% for error in register_form.username.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-            <label for="password">Password:</label>
-            {{ register_form.password(class_='form-control', placeholder='Password')}}
-            
-            <ul>
-                {% for error in register_form.password.errors %}
-                <li>{{ error }}</li>
-                    {% endfor %}
-            </ul>
-            <label for="confirm_pswd">Confirm Password:</label>
-            {{ register_form.confirm_pswd(class_='form-control', placeholder='Confirm Password')}}
-                
-                <ul>
-                    {% for error in register_form.confirm_pswd.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-            <label for="register"></label>
-            <button id="register" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-            {{ register_form.csrf_token }}
+        <form action="{{url_for('create_project')}}", method="POST">
+            <label for="name">Project Name:</label>
+            {{ create_project_form.name(class_='form-control', placeholder='Desafio do Jackman', autocomplete='off', autofocus=true)}}
+            <label for="create-project"></label>
+            <button id="create-project" class="btn btn-lg btn-primary btn-block" type="submit">Create Project</button>
+            {{ create_project_form.csrf_token }}
         </form>
       </div>
       <div class="modal-footer">
