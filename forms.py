@@ -73,3 +73,11 @@ class SearchProjects(FlaskForm):
     name = StringField('name_label', validators=[])
     
     submit_button = SubmitField('Search')
+
+class QuestionForm(FlaskForm):
+    """ Project Form """
+
+    name = StringField('name_label', 
+        validators=[InputRequired(message="Project name required"), Length(min=4)])
+    
+    submit_button = SubmitField('Create')
