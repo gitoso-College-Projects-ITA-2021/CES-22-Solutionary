@@ -22,6 +22,21 @@ footer {
     border-color: #1d2124;
 }
 
+.btn-secondary {
+    background-color: #2A363B;
+    color: #9d9d9d;
+}
+
+.btn-secondary:hover {
+    background-color: #23272b;
+    color: #9d9d9d;
+}
+
+.btn-secondary:focus {
+    background-color: #23272b;
+    color: #9d9d9d;
+}
+
 .spacer {
     margin-top: 100px;
 }
@@ -89,6 +104,10 @@ button.list-group-item:focus {
 }
 
 .delete-button:hover {
+    color: #E84A5F;
+}
+
+.delete-button:focus {
     color: #E84A5F;
 }
 

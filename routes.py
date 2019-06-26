@@ -40,7 +40,7 @@ def private():
 def logout():
 
     logout_user()
-    return index()
+    return redirect(url_for('index'))
 
 @app.route('/register/', methods=['POST'])
 def register():
