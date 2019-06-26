@@ -133,10 +133,12 @@ def delete_project(name):
 def display_projects():
     projects = Project.query.all()
     my_projects = Project.query.filter_by(owner=load_user( current_user.id ).id)
+    subscribed_projects = current_user.projects
     proj_form = ProjectForm()
     del_proj_form = DeleteProjectForm()
+
     return render_template('projects.html', form=proj_form, del_form=del_proj_form, projects=projects,
-    my_projects=my_projects)
+    my_projects=my_projects, subscribed=subscribed_projects)
 
 @app.route('/projects/', methods=['GET', 'POST'])
 @app.route('/projects/<string:name>', methods=['GET', 'POST'])
@@ -157,6 +159,33 @@ def projects(name=None):
         projects = Project.query.filter_by(name=name)
 
     return render_template('projects.html', projects=projects, form=search_form)
+
+@app.route('/subscribe/')
+@app.route('/subscribe/<string:project_name>', methods=['GET', 'POST'])
+@login_required
+def subscribe(project_name=None):
+    if not project_name:
+        return 'Not possible'
+    
+    project_object = Project.query.filter_by(name=project_name).first()
+
+    project_object.subscribers.append(current_user)
+    db.session.commit()
+
+    return display_projects()
+
+@app.route('/unsubscribe/<string:project_name>', methods=['GET', 'POST'])
+@login_required
+def unsubscribe(project_name=None):
+    if not project_name:
+        return 'Not possible'
+    
+    project_object = Project.query.filter_by(name=project_name).first()
+
+    project_object.subscribers.remove(current_user)
+    db.session.commit()
+
+    return display_projects()
 
 
 @app.route('/quill')
