@@ -250,7 +250,7 @@ def create_question(project_name=None):
     print(project_name)
     project_object = Project.query.filter_by(name=project_name).first()
     id = project_object.id
-    question = Question(description=description, name=name, number=number, project=id)
+    question = Question(description=description, name=name, number=number, project=id, sol_number=0)
 
     # Add it into DB
     db.session.add(question)
@@ -321,6 +321,9 @@ def create_solution(project_name=None, question_id=None):
 
     # Add it into DB
     db.session.add(solution)
+    # Adds number of solutions
+    q1 = Question.query.filter_by(id=question_id).first()
+    q1.sol_number = q1.sol_number + 1
     db.session.commit()
 
     return redirect(url_for('question', project_name=project_name, question_id=question_id))
@@ -338,6 +341,9 @@ def delete_solution(project_name=None, question_id=None, solution_id=None):
         id = load_user( current_user.id ).id
         if solution_object.owner == id:
             db.session.delete(solution_object)
+            q1 = Question.query.filter_by(id=question_id).first()
+            if q1.sol_number > 0:
+                q1.sol_number = q1.sol_number - 1
             db.session.commit()
         
         #else TODO
