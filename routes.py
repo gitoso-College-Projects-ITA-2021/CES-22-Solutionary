@@ -83,7 +83,7 @@ def create_project():
             return redirect(url_for('projects')) # Colocar mensagem de erro se nome for igual
         # Add it into DB
         id = load_user( current_user.id ).id
-        project = Project(name=name, owner=id)
+        project = Project(name=name, owner=id, subs=0)
         db.session.add(project)
         db.session.commit()
 
@@ -302,13 +302,11 @@ def create_solution(project_name=None, question_id=None):
     # Checks if user is subscribed to project TODO
 
     content = request.get_json()
-    name = content['form']['name']
-    number = content['form']['number']
     description = content['delta']
     id = load_user( current_user.id ).id
 
     # Project is ralated to question_id
-    solution = Solution(description=description, number=number, question=question_id, owner=id)
+    solution = Solution(description=description, question=question_id, owner=id)
 
     # Add it into DB
     db.session.add(solution)
