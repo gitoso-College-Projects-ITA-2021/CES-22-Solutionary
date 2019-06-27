@@ -100,6 +100,8 @@
         <form action="{{url_for('create_project')}}", method="POST">
             <label for="name">Project Name:</label>
             {{ create_project_form.name(class_='form-control', placeholder='Desafio do Jackman', autocomplete='off', autofocus=true)}}
+            <label for="description">Description:</label>
+            {{ create_project_form.description(class_='form-control', placeholder='What is this project about?', autocomplete='off', autofocus=true)}}
             <label for="create-project"></label>
             <button id="create-project" class="btn btn-lg btn-primary btn-block" type="submit">Create Project</button>
             {{ create_project_form.csrf_token }}
