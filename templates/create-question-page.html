@@ -2,6 +2,53 @@
 
 {% block title %} Solutionary {% endblock %}
 
+{% block styles %}
+{{super()}}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+
+    var delta = quill.getContents()
+
+$('#save').click(function() {
+    $.postJSON = function(url, data, success, args) {
+        seen = [];
+        args = $.extend({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(data, function(key, val) {
+                    if (val != null && typeof val == "object") {
+                            if (seen.indexOf(val) >= 0) {
+                                return;
+                            }
+                            seen.push(val);
+                        }
+                        return val;
+                    }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            async: true,
+            success: success
+        }, args);
+        return $.ajax(args);
+    };
+
+    $.postJSON('', delta, function(result) {
+        console.log('result', result);
+        document.getElementById('create-question-form').submit()
+    });
+});
+
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="row">
@@ -11,20 +58,19 @@
     </div>
     <br>
     <div class="row">
-        <form action="/projects/{{project_name}}/create-question", method="POST">
+        <form id="create-question-form" action="/projects/{{project_name}}/create-question", method="POST">
             <label for="name">Question Title:</label>
             {{ question_form.name(class_='form-control', placeholder='Insane Question', autocomplete='off', autofocus=true)}}
-            <!-- <input class="form-control" id="name" type="text" placeholder="Insane Question"> -->
             <br>
             <label for="number">Question Number:</label>
             {{ question_form.number(class_='form-control', placeholder='666', autocomplete='off', autofocus=true)}}
-            <!-- <input class="form-control" id="number" type="text" placeholder="666"> -->
             <br>
             <label for="texts">Question Text:</label>
-            {{ question_form.description(class_='form-control', placeholder='ITA is out of CONTROL...', autocomplete='off', autofocus=true)}}
-            <!-- <input class="form-control" id="text" type="text" placeholder="We're doomed guys..."> -->
+            <div id="editor" class="quill-editor">
+                <p>ITA is out of control...</p>
+            </div>
             <label for="create-project"></label>
-            <button id="create-project" class="btn btn-lg btn-primary btn-block" type="submit">Post question</button>
+            <button id="create-project" class="btn btn-lg btn-primary btn-block" type="button">Post question</button>
             {{ question_form.csrf_token }}
         </form>
     </div>
