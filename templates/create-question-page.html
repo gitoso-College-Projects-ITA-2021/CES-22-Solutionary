@@ -1,0 +1,32 @@
+{% extends "topbar.html" %}
+
+{% block title %} Solutionary {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2 class="text-center"><a href="/projects/{{project_name}}" class="title-link">PROJECT NAME</a> <a href="" alt="Download File" data-toggle="tooltip" title="Download File"><span class="attachment glyphicon glyphicon-file" aria-hidden="true"></span></a></h2>
+        <br>
+        <h3 class="text-center">Tell us more about the problems you're willing to solve</h3>
+    </div>
+    <br>
+    <div class="row">
+        <form action="/projects/{{project_name}}/create-question", method="POST">
+            <label for="name">Question Title:</label>
+            {{ question_form.name(class_='form-control', placeholder='Insane Question', autocomplete='off', autofocus=true)}}
+            <!-- <input class="form-control" id="name" type="text" placeholder="Insane Question"> -->
+            <br>
+            <label for="number">Question Number:</label>
+            {{ question_form.number(class_='form-control', placeholder='666', autocomplete='off', autofocus=true)}}
+            <!-- <input class="form-control" id="number" type="text" placeholder="666"> -->
+            <br>
+            <label for="texts">Question Text:</label>
+            {{ question_form.description(class_='form-control', placeholder='ITA is out of CONTROL...', autocomplete='off', autofocus=true)}}
+            <!-- <input class="form-control" id="text" type="text" placeholder="We're doomed guys..."> -->
+            <label for="create-project"></label>
+            <button id="create-project" class="btn btn-lg btn-primary btn-block" type="submit">Post question</button>
+            {{ question_form.csrf_token }}
+        </form>
+    </div>
+</div>
+{% endblock %}

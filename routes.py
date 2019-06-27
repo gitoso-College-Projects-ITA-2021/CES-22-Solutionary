@@ -200,7 +200,7 @@ def project(project_name=None):
 @login_required
 def create_question_page(project_name=None):
     question_form = QuestionForm()
-    return render_template('temp.html', project_name=project_name, question_form=question_form)
+    return render_template('create-question-page.html', project_name=project_name, question_form=question_form)
 
 @app.route("/projects/<string:project_name>/create-question", methods=['POST'])
 @login_required
@@ -258,7 +258,7 @@ def question(project_name=None, question_id=None):
     question = Question.query.filter_by(id=question_id)
 
     # Solutions to this question
-    solutions = Solution.query.filer_by(question=question_id)
+    solutions = Solution.query.filter_by(question=question_id)
 
 
     return render_template('lucas1.html', form=sulution_form, question_id=question_id, 
