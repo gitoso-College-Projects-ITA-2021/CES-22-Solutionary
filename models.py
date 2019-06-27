@@ -54,7 +54,7 @@ class Solution(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.JSON, nullable=False)
-    owner = db.Column(db.Integer, nullable=False)
+    owner = db.Column(db.Integer, db.ForeignKey('users.id'))
     owner_name = db.Column(db.String(25), nullable=False)
     question = db.Column(db.Integer, db.ForeignKey('questions.id'))
 

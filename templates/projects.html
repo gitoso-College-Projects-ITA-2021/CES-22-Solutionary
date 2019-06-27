@@ -52,7 +52,7 @@
                         </div>
                         <!-- End modal -->
                         <form action="/projects/{{project.name}}" method="GET">
-                            <button type="submit" class="list-group-item">{{ project.name }} <span class="badge">21</span><a href='#' class="delete-button" data-toggle="modal" data-target="#delete-modal-{{project.id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" title="Delete Project"></span></a></button>
+                            <button type="submit" class="list-group-item">{{ project.name }} <span class="badge">{{project.subs}}</span><a href='#' class="delete-button" data-toggle="modal" data-target="#delete-modal-{{project.id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" title="Delete Project"></span></a></button>
                         </form>
                         {% endfor %}
                 </div>
@@ -63,7 +63,7 @@
                     {% for project in subscribed_projects %}
                     <form id="unsubscribe-{{project.id}}" action="/projects/{{project.name}}/unsubscribe" method="POST"></form>
                     <form action="/projects/{{project.name}}" method="GET">
-                        <button type="submit" class="list-group-item">{{ project.name }} <span class="badge">21</span><a href='#' class="unsubscribe-button" onclick="document.getElementById('unsubscribe-{{project.id}}').submit()"><span class="glyphicon unsubscribe-icon" aria-hidden="true" data-toggle="tooltip" title="Unsubscribe"></span></a></button>
+                        <button type="submit" class="list-group-item">{{ project.name }} <span class="badge">{{project.subs}}</span><a href='#' class="unsubscribe-button" onclick="document.getElementById('unsubscribe-{{project.id}}').submit()"><span class="glyphicon unsubscribe-icon" aria-hidden="true" data-toggle="tooltip" title="Unsubscribe"></span></a></button>
                     </form>
                     {% endfor %}
                 </div>
@@ -76,7 +76,7 @@
                     {% for project in projects %}
                         <form id="subscribe-{{project.id}}" action="/projects/{{project.name}}/subscribe" method="POST"></form>
                         <form action="/projects/{{project.name}}" method="GET">
-                            <button type="submit" class="list-group-item">{{ project.name }} <span class="badge">21</span><a href='#' class="subscribe-button" onclick="document.getElementById('subscribe-{{project.id}}').submit()"><span class="glyphicon subscribe-icon" aria-hidden="true" data-toggle="tooltip" title="Subscribe"></span></a></button>
+                            <button type="submit" class="list-group-item">{{ project.name }} <span class="badge">{{project.subs}}</span><a href='#' class="subscribe-button" onclick="document.getElementById('subscribe-{{project.id}}').submit()"><span class="glyphicon subscribe-icon" aria-hidden="true" data-toggle="tooltip" title="Subscribe"></span></a></button>
                         </form>
                         {% endfor %}
                 </div>
