@@ -15,36 +15,61 @@
         theme: 'snow'
     });
 
-    var delta = quill.getContents()
-
-$('#save').click(function() {
-    $.postJSON = function(url, data, success, args) {
-        seen = [];
-        args = $.extend({
-            url: url,
-            type: 'POST',
-            data: JSON.stringify(data, function(key, val) {
-                    if (val != null && typeof val == "object") {
-                            if (seen.indexOf(val) >= 0) {
-                                return;
-                            }
-                            seen.push(val);
+$.postJSON = function(url, data, success, args) {
+    seen = [];
+    args = $.extend({
+        url: url,
+        type: 'POST',
+        data: JSON.stringify(data, function(key, val) {
+                if (val != null && typeof val == "object") {
+                        if (seen.indexOf(val) >= 0) {
+                            return;
                         }
-                        return val;
-                    }),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            async: true,
-            success: success
-        }, args);
-        return $.ajax(args);
-    };
+                        seen.push(val);
+                    }
+                    return val;
+                }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: true,
+        success: success
+    }, args);
+    return $.ajax(args);
+};
 
-    $.postJSON('', delta, function(result) {
-        console.log('result', result);
-        document.getElementById('create-question-form').submit()
+(function ($) {
+        $.fn.serializeFormJSON = function () {
+
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    })(jQuery);
+
+    $('form').submit(function (e) {
+        e.preventDefault();
+        var formJSON = $(this).serializeFormJSON();
+        var delta = quill.getContents()
+        var BIGJSON = {};
+        BIGJSON.form = formJSON;
+        BIGJSON.delta = delta;
+        console.log(BIGJSON);
+
+        $.postJSON('{{url_for('create_question', project_name='toso')}}', BIGJSON, function(result) {
+            console.log('result', result);
+        });
+
     });
-});
 
 </script>
 {% endblock %}
@@ -70,7 +95,7 @@ $('#save').click(function() {
                 <p>ITA is out of control...</p>
             </div>
             <label for="create-project"></label>
-            <button id="create-project" class="btn btn-lg btn-primary btn-block" type="button">Post question</button>
+            <button id="create-project" class="btn btn-lg btn-primary btn-block" type="submit">Post question</button>
             {{ question_form.csrf_token }}
         </form>
     </div>
