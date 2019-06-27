@@ -203,17 +203,38 @@ def create_question(project_name=None):
     if question_form.validate_on_submit():
         name = question_form.name.data
         number = question_form.number.data
+        description = question_form.description.data
 
         # Question is ralated to project id
         project_object = Project.query.filter_by(name=project_name).first()
         id = project_object.id
-        question = Question(name=name, number=number, project=id)
+        question = Question(description=description, name=name, number=number, project=id)
 
         # Add it into DB
         db.session.add(question)
         db.session.commit()
     
     return redirect(url_for('project', project_name=project_name))
+
+@app.route('/projects/<string:project_name>/delete-question', methods=['POST'])
+@login_required
+def delete_question(project_name=None):
+
+    question_id = request.form['question_id']
+    # Check if question exists
+    question_object = Question.query.filter_by(id=question_id).first()
+    if question_object:
+        # Checks if current user is subscribed
+        id = load_user( current_user.id ).id
+        project_user = User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all()
+        if project_user:
+            db.session.delete(question_object)
+            db.session.commit()
+        
+        #else TODO
+        # colocar notificação de que não foi possível deletar
+        
+    return redirect(url_for('project'))
 
 # Project page
 @app.route("/projects/<string:project_name>/<int:question_id>", methods=['GET'])
@@ -245,12 +266,32 @@ def create_solution(project_name=None, question_id=None):
     if sulution_form.validate_on_submit():
         description = sulution_form.description.data
         number = sulution_form.number.data
+        id = load_user( current_user.id ).id
 
         # Project is ralated to question_id
-        solution = Solution(description=description, number=number, project=question_id)
+        solution = Solution(description=description, number=number, project=question_id, owner=id)
 
         # Add it into DB
         db.session.add(solution)
         db.session.commit()
 
     return redirect(url_for('question', project_name=project_name, question_id=question_id))
+
+@app.route('/projects/<string:project_name>/<int:question_id>/delete-solution', methods=['POST'])
+@login_required
+def delete_solution(project_name=None):
+
+    solution_id = request.form['question_id']
+    # Check if question exists
+    solution_object = Solution.query.filter_by(id=solution_id).first()
+    if solution_object:
+        # Checks if current user owns solution
+        id = load_user( current_user.id ).id
+        if solution_object.owner == id:
+            db.session.delete(solution_object)
+            db.session.commit()
+        
+        #else TODO
+        # colocar notificação de que não foi possível deletar
+        
+    return redirect(url_for('project'))
