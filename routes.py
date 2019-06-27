@@ -106,7 +106,9 @@ def delete_project():
                 delete_question(project_name=project_object.name, question_id=question.id) 
 
             # Unsubscribes everyone
-
+            users = project_user = User.query.join(User.projects).filter(Project.id==project_id).all()
+            for user in users:
+                unsubscribe(project_name=project_object.name, user)
 
             db.session.delete(project_object)
             db.session.commit()
@@ -164,13 +166,14 @@ def subscribe(project_name=None):
 def unsubscribe(project_name=None, user=None):
 
     if not user:
-        
+        user = current_user
+
     if not project_name:
         return 'Not possible'   # TODO
     
     project_object = Project.query.filter_by(name=project_name).first()
 
-    project_object.subscribers.remove(current_user)
+    project_object.subscribers.remove(user)
     db.session.commit()
 
     return redirect(url_for('projects'))
