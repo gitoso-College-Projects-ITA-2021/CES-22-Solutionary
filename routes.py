@@ -152,11 +152,13 @@ def subscribe(project_name=None):
     id = load_user( current_user.id ).id
     
     # if it is already subscribed, do not subscribe
-    project_user = User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all()
-    if project_user:
+    project_user = User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).first()
+    if project_user or project_object.owner == id:
         return redirect(url_for('projects'))
 
     project_object.subscribers.append(current_user)
+    # Adiciona um nos subscribers
+    project_object.subs = project_object.subs + 1
     db.session.commit()
 
     return redirect(url_for('projects'))
@@ -172,6 +174,9 @@ def unsubscribe(project_name=None, user=None):
         return 'Not possible'   # TODO
     
     project_object = Project.query.filter_by(name=project_name).first()
+
+    if project_object.subs > 0:
+        project_object.subs = project_object.subs - 1
 
     project_object.subscribers.remove(user)
     db.session.commit()
@@ -256,15 +261,15 @@ def delete_question(project_name=None, question_id=None):
     # Check if question exists
     question_object = Question.query.filter_by(id=question_id).first()
     if question_object:
-        # Checks if current user is subscribed
+        # Checks if current user is subscribed or if it is project owner
         id = load_user( current_user.id ).id
+        project_object = Project.query.filter_by(project_name=project_name).first()
         project_user = User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all()
-        if project_user:
-
+        if project_user or project_object.owner == id:
             # First delete all questions solutions
             solutions = Solution.query.filter_by(question=question_id).all()
             for solution in solutions:
-                delete_solution(project_name=project_name, question_id=question_id,solution_id=solution.id)
+                delete_solution(project_name=project_name, question_id=question_id, solution_id=solution.id)
 
             db.session.delete(question_object)
             db.session.commit()
