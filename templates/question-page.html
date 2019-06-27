@@ -19,11 +19,9 @@
     });
     console.log('toso');
     var postId = $('#quillJS').data("post-id");
-    console.log(postId);
     postId = postId.replace(/'/g, '"');
-    console.log(postId);
-
-    quill.setContents(postId);
+    var obj = JSON.parse(postId);
+    quill.setContents(obj);
     quill.enable(false);
 </script>
 {% endblock %}

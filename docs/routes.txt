@@ -18,3 +18,7 @@
 /projects/<project-name>/<question-id>/create-solution/         [POST] CRIA SOLUCAO
 /projects/<project-name>/<question-id>/delete-solution/         [POST] CRIA SOLUCAO
 /projects/<project-name>/<question-id>/edit-solution/<s-id>     [POST] CRIA SOLUCAO
+
+
+
+{"ops": [{"attributes": {"bold": True}, "insert": "Hoje eu acordei feliz, sonhei com ela a noite inteira eu sempre quis... "}, {"attributes": {"italic": True, "bold": True}, "insert": "adskjhjkdhaskjdajskhdkjadjdhakjsdhakjsdhkjasdhkjd"}, {"insert": "\n"}]}

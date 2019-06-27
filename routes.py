@@ -162,9 +162,6 @@ def subscribe(project_name=None):
 @app.route('/projects/<string:project_name>/unsubscribe', methods=['POST'])
 @login_required
 def unsubscribe(project_name=None, user=None):
-
-    if not user:
-        
     if not project_name:
         return 'Not possible'   # TODO
     
@@ -275,11 +272,9 @@ def delete_question(project_name=None, question_id=None):
 @login_required
 def question(project_name=None, question_id=None):
     solution_form = SolutionForm()
-    
 
     # Associated question
     question = Question.query.filter_by(id=question_id).first()
-    question.description = json.loads('[{}]'.format(question.description))
 
     # Solutions to this question
     solutions = Solution.query.filter_by(question=question_id)
@@ -287,6 +282,12 @@ def question(project_name=None, question_id=None):
     return render_template('question-page.html', form=solution_form, question_id=question_id, 
     project_name=project_name, question=question, solutions=solutions)
 
+@app.route("/projects/<string:project_name>/<int:question_id>/create-solution", methods=['GET'])
+@login_required
+def create_solution_page(project_name=None, question_id=None):
+    solution_form = SolutionForm()
+    question = Question.query.filter_by(id=question_id).first()
+    return render_template('create-solution-page.html', project_name=project_name, solution_form=solution_form, question=question)
 
 @app.route("/projects/<string:project_name>/<int:question_id>/create-solution", methods=['POST'])
 @login_required
