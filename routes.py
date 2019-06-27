@@ -108,7 +108,7 @@ def delete_project():
             # Unsubscribes everyone
             users = project_user = User.query.join(User.projects).filter(Project.id==project_id).all()
             for user in users:
-                unsubscribe(project_name=project_object.name, user)
+                unsubscribe(project_name=project_object.name, user=user)
 
             db.session.delete(project_object)
             db.session.commit()
