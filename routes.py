@@ -202,7 +202,8 @@ def project(project_name=None):
     question_form = QuestionForm()
 
     # Returns questions related to project_name
-    project_id = Project.query.filter_by(name=project_name).first().id
+    project = Project.query.filter_by(name=project_name).first()
+    project_id = project.id
 
     # Is the user subscribed?
     is_subscribed = False
@@ -224,7 +225,7 @@ def project(project_name=None):
     questions = Question.query.filter_by(project=project_id)
 
     return render_template('project_page.html', form=question_form, questions=questions, project_name=project_name, 
-    is_subscribed=is_subscribed, is_owner=is_owner)
+    is_subscribed=is_subscribed, is_owner=is_owner, description=project.description)
 
 @app.route("/projects/<string:project_name>/create-question", methods=['GET'])
 @login_required
@@ -322,7 +323,7 @@ def create_solution(project_name=None, question_id=None):
     description = content['delta']
     id = load_user( current_user.id ).id
     owner = User.query.filter_by(id=id).first()
-    owner_name = owner.name
+    owner_name = owner.username
 
     # Project is ralated to question_id
     solution = Solution(description=description, question=question_id, owner=id, owner_name=owner_name)
