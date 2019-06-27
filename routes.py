@@ -266,12 +266,32 @@ def create_solution(project_name=None, question_id=None):
     if sulution_form.validate_on_submit():
         description = sulution_form.description.data
         number = sulution_form.number.data
+        id = load_user( current_user.id ).id
 
         # Project is ralated to question_id
-        solution = Solution(description=description, number=number, project=question_id)
+        solution = Solution(description=description, number=number, project=question_id, owner=id)
 
         # Add it into DB
         db.session.add(solution)
         db.session.commit()
 
     return redirect(url_for('question', project_name=project_name, question_id=question_id))
+
+@app.route('/projects/<string:project_name>/<int:question_id>/delete-solution', methods=['POST'])
+@login_required
+def delete_solution(project_name=None):
+
+    solution_id = request.form['question_id']
+    # Check if question exists
+    solution_object = Solution.query.filter_by(id=solution_id).first()
+    if solution_object:
+        # Checks if current user owns solution
+        id = load_user( current_user.id ).id
+        if solution_object.owner == id:
+            db.session.delete(solution_object)
+            db.session.commit()
+        
+        #else TODO
+        # colocar notificação de que não foi possível deletar
+        
+    return redirect(url_for('project'))
