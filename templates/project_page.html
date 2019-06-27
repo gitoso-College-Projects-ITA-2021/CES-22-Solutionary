@@ -42,7 +42,7 @@
                     </div>
                     <div class="modal-body">
                     <h4 class="modal-danger">Você tem certeza que deseja deletar a questão {{ question.number }} e todas as suas soluções?</h4>
-                    <form id="delete-question-{{question.id}}" action="{{url_for('delete_question', project_name=project_name)}}" method="POST">
+                    <form id="delete-question-{{question.id}}" action="{{url_for('delete_question', project_name=project_name, question_id=question.id)}}" method="POST">
                         <input type="hidden" name="question_id" value="{{question.id}}">
                         <button id="delete-question" class="btn btn-lg btn-danger btn-block" type="submit">Deletar questão</button>
                     </form>

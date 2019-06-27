@@ -33,9 +33,9 @@
         });
         postId = $('#post-{{solution.id}}').data("post-id");
         //console.log(postId)
-        //postId = postId.replace(/'/g, '"');
-        //obj = JSON.parse(postId);
-        quill{{solution.id}}.setContents(postId);
+        postId = postId.replace(/'/g, '"');
+        obj = JSON.parse(postId);
+        quill{{solution.id}}.setContents(obj);
         quill{{solution.id}}.enable(false);
     {% endfor %}
 </script>
@@ -45,7 +45,7 @@
 <input id="quillJS" type="hidden" data-post-id="{{ question.description }}">
 <div class="container">
     <div class="row">
-        <h2 class="text-center"><a href="" class="title-link">{{project_name}}</a> <a href="" alt="Download File" data-toggle="tooltip" title="Download File"><span class="attachment glyphicon glyphicon-file" aria-hidden="true"></span></a></h2>
+        <h2 class="text-center"><a href="/projects/{{project_name}}" class="title-link">{{project_name}}</a> <a href="" alt="Download File" data-toggle="tooltip" title="Download File"><span class="attachment glyphicon glyphicon-file" aria-hidden="true"></span></a></h2>
         <br>
         <h3 class="text-center">{{question.number}}) {{question.name}}</h3>
     </div>
