@@ -50,7 +50,7 @@ class Solution(UserMixin, db.Model):
     __tablename__ = "solutions"
 
     id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(300), nullable=True)
+    description = db.Column(db.JSON, nullable=False)
     number = db.Column(db.Integer, nullable=True)
     owner = db.Column(db.Integer, nullable=False)
     question = db.Column(db.Integer, db.ForeignKey('questions.id'))

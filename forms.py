@@ -87,9 +87,7 @@ class QuestionForm(FlaskForm):
 class SolutionForm(FlaskForm):
     """ Solution Form """
 
-    number = IntegerField('number_label', 
-        validators=[InputRequired(message="Solution number required"), NumberRange(min=0, max=None)])
     description = StringField('description_label', 
-        validators=[InputRequired(message="Solution description"), Length(min=4)])
+        validators=[InputRequired(message="Solution description")])
     
     submit_button = SubmitField('Create')

@@ -106,7 +106,9 @@ def delete_project():
                 delete_question(project_name=project_object.name, question_id=question.id) 
 
             # Unsubscribes everyone
-
+            users = project_user = User.query.join(User.projects).filter(Project.id==project_id).all()
+            for user in users:
+                unsubscribe(project_name=project_object.name, user=user)
 
             db.session.delete(project_object)
             db.session.commit()
@@ -162,12 +164,16 @@ def subscribe(project_name=None):
 @app.route('/projects/<string:project_name>/unsubscribe', methods=['POST'])
 @login_required
 def unsubscribe(project_name=None, user=None):
+
+    if not user:
+        user = current_user
+
     if not project_name:
         return 'Not possible'   # TODO
     
     project_object = Project.query.filter_by(name=project_name).first()
 
-    project_object.subscribers.remove(current_user)
+    project_object.subscribers.remove(user)
     db.session.commit()
 
     return redirect(url_for('projects'))
@@ -206,7 +212,8 @@ def project(project_name=None):
 
     questions = Question.query.filter_by(project=project_id)
 
-    return render_template('project_page.html', form=question_form, questions=questions, project_name=project_name, is_owner=is_owner)
+    return render_template('project_page.html', form=question_form, questions=questions, project_name=project_name, 
+    is_subscribed=is_subscribed)
 
 @app.route("/projects/<string:project_name>/create-question", methods=['GET'])
 @login_required
@@ -301,18 +308,18 @@ def create_solution(project_name=None, question_id=None):
 
     # Checks if user is subscribed to project TODO
 
-    solution_form = SolutionForm()
-    if solution_form.validate_on_submit():
-        description = solution_form.description.data
-        number = solution_form.number.data
-        id = load_user( current_user.id ).id
+    content = request.get_json()
+    name = content['form']['name']
+    number = content['form']['number']
+    description = content['delta']
+    id = load_user( current_user.id ).id
 
-        # Project is ralated to question_id
-        solution = Solution(description=description, number=number, project=question_id, owner=id)
+    # Project is ralated to question_id
+    solution = Solution(description=description, number=number, question=question_id, owner=id)
 
-        # Add it into DB
-        db.session.add(solution)
-        db.session.commit()
+    # Add it into DB
+    db.session.add(solution)
+    db.session.commit()
 
     return redirect(url_for('question', project_name=project_name, question_id=question_id))
 
