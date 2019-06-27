@@ -215,7 +215,7 @@ def create_question(project_name=None):
     if question_form.validate_on_submit():
         name = question_form.name.data
         number = question_form.number.data
-        description = question_form.description.data
+        description = request.get_json()
 
         # Question is ralated to project id
         project_object = Project.query.filter_by(name=project_name).first()
