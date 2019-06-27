@@ -215,6 +215,26 @@ def create_question(project_name=None):
     
     return redirect(url_for('project', project_name=project_name))
 
+@app.route('/projects/<string:project_name>/delete-question', methods=['POST'])
+@login_required
+def delete_question(project_name=None):
+
+    question_id = request.form['question_id']
+    # Check if question exists
+    question_object = Question.query.filter_by(id=question_id).first()
+    if question_object:
+        # Checks if current user is subscribed
+        id = load_user( current_user.id ).id
+        project_user = User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all()
+        if project_user:
+            db.session.delete(question_object)
+            db.session.commit()
+        
+        #else TODO
+        # colocar notificação de que não foi possível deletar
+        
+    return redirect(url_for('project'))
+
 # Project page
 @app.route("/projects/<string:project_name>/<int:question_id>", methods=['GET'])
 @login_required
