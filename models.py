@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, JSON
 from sqlalchemy.dialects import postgresql
 from flask_login import UserMixin
 from app import app
@@ -54,3 +54,13 @@ class Solution(UserMixin, db.Model):
     number = db.Column(db.Integer, nullable=True)
     owner = db.Column(db.Integer, nullable=False)
     question = db.Column(db.Integer, db.ForeignKey('questions.id'))
+
+class QuillTest(UserMixin, db.Model):
+    """ Quill model """
+
+    __tablename__ = "quills"
+
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.JSON, nullable=False)
+    p_name = db.Column(db.String(300), nullable=True)
+    question_id = db.Column(db.Integer, nullable=True)
