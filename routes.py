@@ -198,13 +198,15 @@ def project(project_name=None):
     if User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all():
         is_subscribed = True
 
+    is_owner = True
+
     # Nonexistent project
     if not project_name or not project_id:
         return redirect(url_for('projects'))
 
     questions = Question.query.filter_by(project=project_id)
 
-    return render_template('project_page.html', form=question_form, questions=questions, project_name=project_name)
+    return render_template('project_page.html', form=question_form, questions=questions, project_name=project_name, is_owner=is_owner)
 
 @app.route("/projects/<string:project_name>/create-question", methods=['GET'])
 @login_required
@@ -251,9 +253,10 @@ def delete_question(project_name=None, question_id=None):
     if question_object:
         # Checks if current user is subscribed
         id = load_user( current_user.id ).id
-        project_user = User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all()
+        project_user = User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).first()
+        print(project_user)
         if project_user:
-
+            print('ho')
             # First delete all questions solutions
             solutions = Solution.query.filter_by(question=question_id).all()
             for solution in solutions:
@@ -265,7 +268,7 @@ def delete_question(project_name=None, question_id=None):
         #else TODO
         # colocar notificação de que não foi possível deletar
         
-    return redirect(url_for('project'))
+    return redirect(url_for('project', project_name=project_name))
 
 # Project page
 @app.route("/projects/<string:project_name>/<int:question_id>", methods=['GET'])

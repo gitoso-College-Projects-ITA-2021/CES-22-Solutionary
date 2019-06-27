@@ -30,8 +30,32 @@
 
         <div class="list-group col-lg-12">
             {% for question in questions %}
+            <!-- Delete confirmation modal -->
+            <div id="delete-modal-{{question.id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close modal-close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Atenção</h4>
+                    </div>
+                    <div class="modal-body">
+                    <h4 class="modal-danger">Você tem certeza que deseja deletar a questão {{ question.number }} e todas as suas soluções?</h4>
+                    <form id="delete-question-{{question.id}}" action="{{url_for('delete_question', project_name=project_name)}}" method="POST">
+                        <input type="hidden" name="question_id" value="{{question.id}}">
+                        <button id="delete-question" class="btn btn-lg btn-danger btn-block" type="submit">Deletar questão</button>
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <!-- End modal -->
             <form action="/projects/{{project_name}}/{{question.id}}" method="GET">
-                <button type="submit" class="question-list list-group-item">{{question.number}}) {{question.name}} <span class="badge">UNSOLVED</span></button>
+                <button type="submit" class="question-list list-group-item">{{question.number}}) {{question.name}} <span class="badge">UNSOLVED</span><a href='#' class="delete-button" data-toggle="modal" data-target="#delete-modal-{{question.id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" title="Delete Project"></span></a></button>
             </form>
             {% endfor %}
         </div>
