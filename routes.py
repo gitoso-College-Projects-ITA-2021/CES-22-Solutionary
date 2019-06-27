@@ -188,7 +188,7 @@ def project(project_name=None):
 
     questions = Question.query.filter_by(project=project_id)
 
-    return render_template('lucas.html', form=question_form, questions=questions, project_name=project_name)
+    return render_template('project_page.html', form=question_form, questions=questions, project_name=project_name)
 
 @app.route("/projects/<string:project_name>/create-question", methods=['POST'])
 @login_required

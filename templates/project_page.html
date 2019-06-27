@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <h2 class="text-center">Lista do Bafao <a href="" alt="Download File" data-toggle="tooltip" title="Download File"><span class="attachment glyphicon glyphicon-file" aria-hidden="true"></span></a></h2>
+        <h2 class="text-center">{{project_name}} <a href="" alt="Download File" data-toggle="tooltip" title="Download File"><span class="attachment glyphicon glyphicon-file" aria-hidden="true"></span></a></h2>
         <br>
         <form action="{{url_for('projects')}}" method="POST">
             <div class="input-group col-lg-12">
@@ -28,26 +28,12 @@
             <button class="col-lg-12 text-center btn btn-success new-question" type="button">Post new question</button>
         </div>
 
-        <!-- Table -->
         <div class="list-group col-lg-12">
-            <form action="#" method="POST">
-                <button type="button" class="question-list list-group-item">Question 1 <span class="badge">1 Solution</span></button>
+            {% for question in questions %}
+            <form action="/projects/{{project_name}}/{{question.id}}" method="GET">
+                <button type="submit" class="question-list list-group-item">{{question.number}}) {{question.name}} <span class="badge">UNSOLVED</span></button>
             </form>
-            <form action="#" method="POST">
-                <button type="button" class="question-list list-group-item">Question 2 <span class="badge">UNSOLVED</span></button>
-            </form>
-            <form action="#" method="POST">
-                <button type="button" class="question-list list-group-item">Question 3 <span class="badge">21 Solutions</span></button>
-            </form>
-            <form action="#" method="POST">
-                <button type="button" class="question-list list-group-item">Question 4 <span class="badge">42 Solutions</span></button>
-            </form>
-            <form action="#" method="POST">
-                <button type="button" class="question-list list-group-item">Question 5 <span class="badge">3 Solutions</span></button>
-            </form>
-            <form action="#" method="POST">
-                <button type="button" class="question-list list-group-item">Question 6 <span class="badge">UNSOLVED</span></button>
-            </form>
+            {% endfor %}
         </div>
     </div>
 </div>

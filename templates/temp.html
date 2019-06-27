@@ -1,0 +1,28 @@
+{% extends "topbar.html" %}
+
+{% block title %} Solutionary {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2 class="text-center">PROJECT NAME <a href="" alt="Download File" data-toggle="tooltip" title="Download File"><span class="attachment glyphicon glyphicon-file" aria-hidden="true"></span></a></h2>
+        <br>
+        <h3 class="text-center">Post new question</h3>
+    </div>
+    <br>
+    <div class="row">
+        <form action="#", method="POST">
+            <label for="name">Question Title:</label>
+            <input class="form-control" id="name" type="text" placeholder="Insane Question">
+            <br>
+            <label for="number">Question Number:</label>
+            <input class="form-control" id="number" type="text" placeholder="666">
+            <br>
+            <label for="texts">Question Text:</label>
+            <input class="form-control" id="text" type="text" placeholder="We're doomed guys...">
+            <label for="create-project"></label>
+            <button id="create-project" class="btn btn-lg btn-primary btn-block" type="submit">Create Project</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
