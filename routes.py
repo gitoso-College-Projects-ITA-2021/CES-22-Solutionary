@@ -315,9 +315,11 @@ def create_solution(project_name=None, question_id=None):
     content = request.get_json()
     description = content['delta']
     id = load_user( current_user.id ).id
+    owner = User.query.filter_by(id=id).first()
+    owner_name = owner.name
 
     # Project is ralated to question_id
-    solution = Solution(description=description, question=question_id, owner=id)
+    solution = Solution(description=description, question=question_id, owner=id, owner_name=owner_name)
 
     # Add it into DB
     db.session.add(solution)
