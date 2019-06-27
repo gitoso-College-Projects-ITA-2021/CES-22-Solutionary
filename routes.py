@@ -214,3 +214,43 @@ def create_question(project_name=None):
         db.session.commit()
     
     return redirect(url_for('project', project_name=project_name))
+
+# Project page
+@app.route("/projects/<string:project_name>/<int:question_id>", methods=['GET'])
+@login_required
+def question(project_name=None, question_id=None):
+    sulution_form = SolutionForm()
+
+    # Associated question
+    question = Question.query.filter_by(id=question_id)
+
+    # Solutions to this question
+    solutions = Solution.query.filer_by(question=question_id)
+
+
+    return render_template('lucas1.html', form=sulution_form, question_id=question_id, 
+    project_name=project_name, question=question, solutions=solutions)
+
+
+@app.route("/projects/<string:project_name>/<int:question_id>/create-solution", methods=['POST'])
+@login_required
+def create_solution(project_name=None, question_id=None):
+
+    if not project_name or not question_id:
+        return redirect(url_for('projects'))
+
+    # Checks if user is subscribed to project TODO
+
+    sulution_form = SolutionForm()
+    if sulution_form.validate_on_submit():
+        description = sulution_form.description.data
+        number = sulution_form.number.data
+
+        # Project is ralated to question_id
+        solution = Solution(description=description, number=number, project=question_id)
+
+        # Add it into DB
+        db.session.add(solution)
+        db.session.commit()
+
+    return redirect(url_for('question', project_name=project_name, question_id=question_id))
