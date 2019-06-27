@@ -72,7 +72,7 @@ $.postJSON = function(url, data, success, args) {
     $('form').submit(function (e) {
         e.preventDefault();
         var formJSON = $(this).serializeFormJSON();
-        var delta = quill.getContents()
+        var delta = quill2.getContents()
         var BIGJSON = {};
         BIGJSON.form = formJSON;
         BIGJSON.delta = delta;

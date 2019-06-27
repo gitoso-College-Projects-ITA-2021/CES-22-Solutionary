@@ -17,12 +17,27 @@
             toolbar: false
         }
     });
-    console.log('toso');
     var postId = $('#quillJS').data("post-id");
     postId = postId.replace(/'/g, '"');
     var obj = JSON.parse(postId);
     quill.setContents(obj);
     quill.enable(false);
+
+
+    {% for solution in solutions %}
+        var quill{{solution.id}} = new Quill('#sol-{{solution.id}}', {
+            theme: 'snow',
+            modules: {
+                toolbar: false
+            }
+        });
+        postId = $('#post-{{solution.id}}').data("post-id");
+        //console.log(postId)
+        //postId = postId.replace(/'/g, '"');
+        //obj = JSON.parse(postId);
+        quill{{solution.id}}.setContents(postId);
+        quill{{solution.id}}.enable(false);
+    {% endfor %}
 </script>
 {% endblock %}
 
@@ -41,15 +56,19 @@
     </div>
     <div class="row">
         <div class="col-lg-6">
-            <h3>Solutions <button class="btn btn-success create-button" style="margin-left: 30px;" type="button" data-toggle="modal" data-target="#create-project-modal">Post a Solution</button></h3>
+            <form action="" method="GET">
+                <h3>Solutions <a href="/projects/{{project_name}}/{{question.id}}/create-solution" class="btn btn-success create-button" style="margin-left: 30px;" >Post a Solution</a></h3>
+            </form>
         </div>
     </div>
     {% for solution in solutions %}
+    <input id="post-{{solution.id}}" type="hidden" data-post-id="{{ solution.description }}">
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">By: {{owner}} </div>
             <div class="panel-body">
-                <p>{{solution.description}}</p>
+                <div id="sol-{{solution.id}}">
+                </div>
             </div>
         </div>
     </div>

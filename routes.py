@@ -309,8 +309,7 @@ def create_solution(project_name=None, question_id=None):
     # Checks if user is subscribed to project TODO
 
     content = request.get_json()
-    name = content['form']['name']
-    number = content['form']['number']
+    number = 0
     description = content['delta']
     id = load_user( current_user.id ).id
 
