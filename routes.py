@@ -98,6 +98,13 @@ def delete_project():
     if project_object:
         id = load_user( current_user.id ).id
         if project_object.owner == id:
+
+            # First it deletes all questions and solutions
+            #delete_question(project_name=None, question_id=None) TODO
+
+            # Unsubscribes everyone
+
+
             db.session.delete(project_object)
             db.session.commit()
         
@@ -211,11 +218,13 @@ def create_question(project_name=None):
 
     # Checks if user is subscribed to project TODO
 
+    # Get content JSON
+    content = request.get_json()
     question_form = QuestionForm()
     if question_form.validate_on_submit():
-        name = question_form.name.data
-        number = question_form.number.data
-        description = request.get_json()
+        name = content['form']['name']
+        number = content['form']['number']
+        description = content['delta']
 
         # Question is ralated to project id
         project_object = Project.query.filter_by(name=project_name).first()
@@ -230,9 +239,10 @@ def create_question(project_name=None):
 
 @app.route('/projects/<string:project_name>/delete-question', methods=['POST'])
 @login_required
-def delete_question(project_name=None):
+def delete_question(project_name=None, question_id=None):
 
-    question_id = request.form['question_id']
+    if not question_id:
+        question_id = request.form['question_id']
     # Check if question exists
     question_object = Question.query.filter_by(id=question_id).first()
     if question_object:
@@ -240,6 +250,12 @@ def delete_question(project_name=None):
         id = load_user( current_user.id ).id
         project_user = User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all()
         if project_user:
+
+            # First delete all questions solutions
+            solutions = Solution.query.filter_by(question=question_id).all()
+            for solution in solutions:
+                delete_solution(project_name=project_name, question_id=question_id,solution_id=solution.id)
+
             db.session.delete(question_object)
             db.session.commit()
         
@@ -292,10 +308,11 @@ def create_solution(project_name=None, question_id=None):
 
 @app.route('/projects/<string:project_name>/<int:question_id>/delete-solution', methods=['POST'])
 @login_required
-def delete_solution(project_name=None):
+def delete_solution(project_name=None, question_id=None, solution_id=None):
 
-    solution_id = request.form['question_id']
-    # Check if question exists
+    if not solution_id:
+        solution_id = request.form['question_id']
+    # Check if solution exists
     solution_object = Solution.query.filter_by(id=solution_id).first()
     if solution_object:
         # Checks if current user owns solution
