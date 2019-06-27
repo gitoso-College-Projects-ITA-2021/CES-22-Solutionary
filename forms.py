@@ -55,6 +55,8 @@ class ProjectForm(FlaskForm):
 
     name = StringField('name_label', 
         validators=[InputRequired(message="Project name required"), Length(min=4)])
+    description = StringField('name_label', 
+        validators=[InputRequired(message="Description required"), Length(min=4)])
     
     submit_button = SubmitField('Create')
 

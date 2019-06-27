@@ -76,6 +76,7 @@ def create_project():
 
     if proj_form.validate_on_submit():
         name = proj_form.name.data
+        description = proj_form.description.data
 
         # Check name exists
         project_object = Project.query.filter_by(name=name).first()
@@ -83,7 +84,7 @@ def create_project():
             return redirect(url_for('projects')) # Colocar mensagem de erro se nome for igual
         # Add it into DB
         id = load_user( current_user.id ).id
-        project = Project(name=name, owner=id, subs=0)
+        project = Project(name=name, owner=id, subs=0, description=description)
         db.session.add(project)
         db.session.commit()
 
