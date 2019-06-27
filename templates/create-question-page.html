@@ -1,0 +1,104 @@
+{% extends "topbar.html" %}
+
+{% block title %} Solutionary {% endblock %}
+
+{% block styles %}
+{{super()}}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+
+$.postJSON = function(url, data, success, args) {
+    seen = [];
+    args = $.extend({
+        url: url,
+        type: 'POST',
+        data: JSON.stringify(data, function(key, val) {
+                if (val != null && typeof val == "object") {
+                        if (seen.indexOf(val) >= 0) {
+                            return;
+                        }
+                        seen.push(val);
+                    }
+                    return val;
+                }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: true,
+        success: success
+    }, args);
+    return $.ajax(args);
+};
+
+(function ($) {
+        $.fn.serializeFormJSON = function () {
+
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name]) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+    })(jQuery);
+
+    $('form').submit(function (e) {
+        e.preventDefault();
+        var formJSON = $(this).serializeFormJSON();
+        var delta = quill.getContents()
+        var BIGJSON = {};
+        BIGJSON.form = formJSON;
+        BIGJSON.delta = delta;
+        console.log(BIGJSON);
+
+        $.postJSON('{{url_for('create_question', project_name=project_name)}}', BIGJSON, function(result) {
+            console.log('result', result);
+            location.pathname = '{{url_for('project', project_name=project_name)}}';
+        });
+
+    });
+
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2 class="text-center"><a href="/projects/{{project_name}}" class="title-link">{{project_name}}</a> <a href="" alt="Download File" data-toggle="tooltip" title="Download File"><span class="attachment glyphicon glyphicon-file" aria-hidden="true"></span></a></h2>
+        <br>
+        <h3 class="text-center">Tell us more about the problems you're willing to solve</h3>
+    </div>
+    <br>
+    <div class="row">
+        <form id="create-question-form" action="/projects/{{project_name}}/create-question", method="POST">
+            <label for="name">Question Title:</label>
+            {{ question_form.name(class_='form-control', placeholder='Insane Question', autocomplete='off', autofocus=true)}}
+            <br>
+            <label for="number">Question Number:</label>
+            {{ question_form.number(class_='form-control', placeholder='666', autocomplete='off', autofocus=true)}}
+            <br>
+            <label for="texts">Question Text:</label>
+            <div id="editor" class="quill-editor">
+                <p>ITA is out of control...</p>
+            </div>
+            <label for="create-project"></label>
+            <button id="create-project" class="btn btn-lg btn-primary btn-block" type="submit">Post question</button>
+            {{ question_form.csrf_token }}
+        </form>
+    </div>
+</div>
+{% endblock %}

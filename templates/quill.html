@@ -12,13 +12,45 @@
     var quill = new Quill('#editor', {
         theme: 'snow'
     });
+
+    var delta = quill.getContents()
+
+$('#save').click(function() {
+    $.postJSON = function(url, data, success, args) {
+        seen = [];
+        args = $.extend({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(data, function(key, val) {
+                    if (val != null && typeof val == "object") {
+                            if (seen.indexOf(val) >= 0) {
+                                return;
+                            }
+                            seen.push(val);
+                        }
+                        return val;
+                    }),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            async: true,
+            success: success
+        }, args);
+        return $.ajax(args);
+    };
+
+    $.postJSON('http://localhost:5000/quill/Desafio/6', delta, function(result) {
+        console.log('result', result);
+    });
+    console.log('foi')
+});
+
 </script>
 {% endblock %}
 
 {% block content %}
 <div id="editor">
     <p>Hello World!</p>
-    <p>Some initial <strong>bold</strong> text</p>
-    <p><br></p>
 </div>
+
+<button id="save">GOGOGO</button>
 {% endblock %}

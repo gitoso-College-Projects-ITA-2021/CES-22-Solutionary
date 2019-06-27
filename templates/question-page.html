@@ -1,0 +1,77 @@
+{% extends "topbar.html" %}
+
+{% block title %} Solutionary {% endblock %}
+
+{% block styles %}
+{{super()}}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+    var quill = new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: false
+        }
+    });
+    var postId = $('#quillJS').data("post-id");
+    postId = postId.replace(/'/g, '"');
+    var obj = JSON.parse(postId);
+    quill.setContents(obj);
+    quill.enable(false);
+
+
+    {% for solution in solutions %}
+        var quill{{solution.id}} = new Quill('#sol-{{solution.id}}', {
+            theme: 'snow',
+            modules: {
+                toolbar: false
+            }
+        });
+        postId = $('#post-{{solution.id}}').data("post-id");
+        //console.log(postId)
+        postId = postId.replace(/'/g, '"');
+        obj = JSON.parse(postId);
+        quill{{solution.id}}.setContents(obj);
+        quill{{solution.id}}.enable(false);
+    {% endfor %}
+</script>
+{% endblock %}
+
+{% block content %}
+<input id="quillJS" type="hidden" data-post-id="{{ question.description }}">
+<div class="container">
+    <div class="row">
+        <h2 class="text-center"><a href="/projects/{{project_name}}" class="title-link">{{project_name}}</a> <a href="" alt="Download File" data-toggle="tooltip" title="Download File"><span class="attachment glyphicon glyphicon-file" aria-hidden="true"></span></a></h2>
+        <br>
+        <h3 class="text-center">{{question.number}}) {{question.name}}</h3>
+    </div>
+    <br>
+    <div class="row">
+        <div id="editor" class="quill-editor">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <form action="" method="GET">
+                <h3>Solutions <a href="/projects/{{project_name}}/{{question.id}}/create-solution" class="btn btn-success create-button" style="margin-left: 30px;" >Post a Solution</a></h3>
+            </form>
+        </div>
+    </div>
+    {% for solution in solutions %}
+    <input id="post-{{solution.id}}" type="hidden" data-post-id="{{ solution.description }}">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">By: {{owner}} </div>
+            <div class="panel-body">
+                <div id="sol-{{solution.id}}">
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

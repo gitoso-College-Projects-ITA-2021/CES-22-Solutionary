@@ -1,0 +1,36 @@
+{% extends "topbar.html" %}
+
+{% block styles %}
+{{super()}}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script charset="utf-8">
+    var quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+
+$('#save').click(function() {
+    console.log('ok')
+    var postId = $('#post').data("post-id");
+    console.log(postId);
+    postId = postId.replace(/'/g, '"');
+    quill.setContents(postId);
+});
+
+</script>
+{% endblock %}
+
+{% block content %}
+<input name="post" id="post" type="hidden" data-post-id="{{ quill.description }}">
+<h2>{{quill.description}}</h2>
+
+<div id="editor" class="quill-editor">
+
+</div>
+
+<button id="save">GOGOGO</button>
+{% endblock %}

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms.validators import InputRequired, Length, EqualTo, ValidationError, NumberRange
 from passlib.hash import pbkdf2_sha256
 
 from models import User
@@ -55,12 +55,13 @@ class ProjectForm(FlaskForm):
 
     name = StringField('name_label', 
         validators=[InputRequired(message="Project name required"), Length(min=4)])
+    description = StringField('name_label', 
+        validators=[InputRequired(message="Description required"), Length(min=4)])
     
     submit_button = SubmitField('Create')
 
 class DeleteProjectForm(FlaskForm):
     """ Project Delete Form """
-
 
     name = StringField('name_label', 
         validators=[InputRequired(message="Project name required"), Length(min=1)])
@@ -73,3 +74,21 @@ class SearchProjects(FlaskForm):
     name = StringField('name_label', validators=[])
     
     submit_button = SubmitField('Search')
+
+class QuestionForm(FlaskForm):
+    """ Question Form """
+
+    name = StringField('name_label', 
+        validators=[InputRequired(message="Question name required"), Length(min=4)])
+    number = IntegerField('number_label', 
+        validators=[InputRequired(message="Question number required"), NumberRange(min=0, max=None)])
+    
+    submit_button = SubmitField('Create')
+
+class SolutionForm(FlaskForm):
+    """ Solution Form """
+
+    description = StringField('description_label', 
+        validators=[InputRequired(message="Solution description")])
+    
+    submit_button = SubmitField('Create')

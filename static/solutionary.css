@@ -1,5 +1,5 @@
 body {
-    color: #FECEAB;
+    /* color: #FECEAB; */
     background-color: #2A363B;
     font-family: 'Nunito', sans-serif;
 }
@@ -8,8 +8,52 @@ footer {
     text-align: center;
 }
 
-form {
-    color: black;
+h1, h2, h3, h4, h5, h6 {
+    color: #FECEAB;
+}
+
+label {
+    color: #FECEAB;
+}
+
+.orange {
+    color: #FECEAB;
+}
+
+.title-link {
+    text-decoration: none;
+    color: #FECEAB;
+}
+
+.title-link:hover {
+    text-decoration: none;
+    color: #FECEAB;
+}
+
+.title-link:focus {
+    text-decoration: none;
+    color: #FECEAB;
+}
+
+.question-list {
+    -webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important;
+    border-radius: 0px !important; 
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.new-question {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.enunciado {
+    color: #99B898;
+    background-color: #23272b;
+    border-color: #FECEAB;
 }
 
 .btn-dark {
@@ -19,11 +63,31 @@ form {
     border-color: #1d2124;
 }
 
+.quill-editor {
+    color: black;
+    background-color: white;
+}
+
 .btn-dark:hover {
     background-image: linear-gradient(to bottom,#2A363B  0,#2A363B  100%);
     color: #fff;
     background-color: #23272b;
     border-color: #1d2124;
+}
+
+.btn-secondary {
+    background-color: #2A363B;
+    color: #9d9d9d;
+}
+
+.btn-secondary:hover {
+    background-color: #23272b;
+    color: #9d9d9d;
+}
+
+.btn-secondary:focus {
+    background-color: #23272b;
+    color: #9d9d9d;
 }
 
 .spacer {
@@ -80,6 +144,72 @@ button.list-group-item:focus {
     background-color: #2A363B;
     color: #FECEAB;
     border: 1px solid #FECEAB;
+}
+
+.create-button {
+    padding: 0 12px 0 12px;
+}
+
+.delete-button {
+    float: right;
+    margin-right: 10px;
+    color: #FECEAB;
+}
+
+.delete-button:hover {
+    color: #E84A5F;
+}
+
+.delete-button:focus {
+    color: #E84A5F;
+}
+
+.subscribe-icon:before{
+    content:"\e007"
+}
+
+.subscribe-icon:hover:before{
+    content:"\e006"
+}
+
+.subscribe-button {
+    float: right;
+    margin-right: 10px;
+    color: #FECEAB;
+}
+
+.subscribe-button:hover {
+    color: #FECEAB;
+}
+
+.subscribe-button:focus {
+    color: #FECEAB;
+}
+
+.unsubscribe-icon:before {
+    content:"\e006"
+}
+
+.unsubscribe-icon:hover:before {
+    content:"\e007"
+}
+
+.unsubscribe-button {
+    float: right;
+    margin-right: 10px;
+    color: #FECEAB;
+}
+
+.unsubscribe-button:hover {
+    color: #E84A5F;
+}
+
+.unsubscribe-button:focus {
+    color: #E84A5F;
+}
+
+.attachment {
+    font-size: 14px;
 }
 
 
