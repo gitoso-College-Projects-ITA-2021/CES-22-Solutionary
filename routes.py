@@ -252,16 +252,17 @@ def delete_question(project_name=None):
 @app.route("/projects/<string:project_name>/<int:question_id>", methods=['GET'])
 @login_required
 def question(project_name=None, question_id=None):
-    sulution_form = SolutionForm()
+    solution_form = SolutionForm()
+    
 
     # Associated question
-    question = Question.query.filter_by(id=question_id)
-
+    question = Question.query.filter_by(id=question_id).first()
+    
     # Solutions to this question
     solutions = Solution.query.filter_by(question=question_id)
 
 
-    return render_template('lucas1.html', form=sulution_form, question_id=question_id, 
+    return render_template('question-page.html', form=solution_form, question_id=question_id, 
     project_name=project_name, question=question, solutions=solutions)
 
 

@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #FECEAB;
 }
 
-p, label {
+label {
     color: #FECEAB;
 }
 
@@ -48,6 +48,12 @@ p, label {
 .new-question {
     width: 100%;
     margin-bottom: 25px;
+}
+
+.enunciado {
+    color: #99B898;
+    background-color: #23272b;
+    border-color: #FECEAB;
 }
 
 .btn-dark {
