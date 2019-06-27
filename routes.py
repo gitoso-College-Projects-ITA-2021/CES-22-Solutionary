@@ -182,13 +182,20 @@ def project(project_name=None):
     # Returns questions related to project_name
     project_id = Project.query.filter_by(name=project_name).first().id
 
+    # Is the user subscribed?
+    is_subscribed = False
+    id = load_user( current_user.id ).id
+    if User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all():
+        is_subscribed = True
+
     # Nonexistent project
     if not project_name or not project_id:
         return redirect(url_for('projects'))
 
     questions = Question.query.filter_by(project=project_id)
 
-    return render_template('lucas.html', form=question_form, questions=questions, project_name=project_name)
+    return render_template('lucas.html', form=question_form, questions=questions, project_name=project_name, 
+                            is_subscribe=is_subscribed)
 
 @app.route("/projects/<string:project_name>/create-question", methods=['POST'])
 @login_required
