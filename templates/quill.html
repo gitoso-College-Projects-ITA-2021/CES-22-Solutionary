@@ -12,13 +12,30 @@
     var quill = new Quill('#editor', {
         theme: 'snow'
     });
+
+$('#save').click(function() {
+    xhr = new XMLHttpRequest();
+    var url = "http://37408228.ngrok.io";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function () { 
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var json = JSON.parse(xhr.responseText);
+            console.log(json.email + ", " + json.name)
+        }
+    }
+    var delta = quill.getContents();
+    xhr.send(delta);
+    console.log('foi');
+})
+
 </script>
 {% endblock %}
 
 {% block content %}
 <div id="editor">
     <p>Hello World!</p>
-    <p>Some initial <strong>bold</strong> text</p>
-    <p><br></p>
 </div>
+
+<button id="save">GOGOGO</button>
 {% endblock %}
