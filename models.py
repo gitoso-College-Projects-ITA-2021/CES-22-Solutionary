@@ -25,10 +25,20 @@ class User(UserMixin, db.Model):
 
 
 class Project(UserMixin, db.Model):
-    """ User model """
+    """ Project model """
 
     __tablename__ = "projects"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(25), unique=True, nullable=False)
     owner = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+class Question(UserMixin, db.Model):
+    """ Question model """
+
+    __tablename__ = "questions"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(25), unique=True, nullable=False)
+    number = db.Column(db.Integer, nullable=False)
+    project = db.Column(db.Integer, db.ForeignKey('projects.id'))

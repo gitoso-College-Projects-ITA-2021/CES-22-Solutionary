@@ -106,64 +106,6 @@ def delete_project():
         
     return redirect(url_for('projects'))
 
-
-# @app.route('/project/', methods=['POST'])
-# @login_required
-# def project():
-
-#     proj_form = ProjectForm()
-#     del_proj_form = DeleteProjectForm()
-
-#     form_name = request.form['form-name']
-#     # Cria
-#     if form_name == 'add' and proj_form.validate_on_submit():
-#         name = proj_form.name.data
-
-#         # Check name exists
-#         project_object = Project.query.filter_by(name=name).first()
-#         if project_object:
-#             render_template('projects.html', form=proj_form, del_form=del_proj_form)
-#         # Add it into DB
-#         id = load_user( current_user.id ).id
-#         project = Project(name=name, owner=id)
-#         db.session.add(project)
-#         db.session.commit()
-        
-#         return display_projects()
-#         #return redirect(url_for('index'))
-
-#     # Deleta
-#     if form_name == 'delete' and del_proj_form.validate_on_submit():
-#         name = del_proj_form.name.data
-#         # Check name exists
-#         project_object = Project.query.filter_by(name=name).first()
-#         if project_object:
-#             id = load_user( current_user.id ).id
-#             if project_object.owner == id:
-#                 db.session.delete(project_object)
-#                 db.session.commit()
-            
-#             #else TODO
-#             # colocar notificação de que não foi possível deletar
-        
-#         return display_projects()
-#         #return redirect(url_for('index'))
-
-#     return display_projects()
-#     #return render_template('projects.html', form=proj_form, del_form=del_proj_form)
-
-# @app.route('/project/', methods=['GET'])
-# @login_required
-# def display_projects():
-#     projects = Project.query.all()
-#     my_projects = Project.query.filter_by(owner=load_user( current_user.id ).id)
-#     subscribed_projects = current_user.projects
-#     proj_form = ProjectForm()
-#     del_proj_form = DeleteProjectForm()
-
-#     return render_template('projects.html', form=proj_form, del_form=del_proj_form, projects=projects,
-#     my_projects=my_projects, subscribed=subscribed_projects)
-
 @app.route('/projects/', methods=['GET', 'POST'])
 @login_required
 def projects():
@@ -193,8 +135,14 @@ def projects():
 def subscribe(project_name=None):
     if not project_name:
         return 'Not possible'   # TODO
-    
+
     project_object = Project.query.filter_by(name=project_name).first()
+    id = load_user( current_user.id ).id
+    
+    # if it is already subscribed, do not subscribe
+    project_user = User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all()
+    if project_user:
+        return redirect(url_for('projects'))
 
     project_object.subscribers.append(current_user)
     db.session.commit()
@@ -223,3 +171,46 @@ def quill():
 @login_required
 def temp():
     return render_template('temp.html')
+
+# Project page
+@app.route("/projects/<string:project_name>", methods=['GET'])
+@login_required
+def project(project_name=None):
+    # Forms da question
+    question_form = QuestionForm()
+
+    # Returns questions related to project_name
+    project_id = Project.query.filter_by(name=project_name).first().id
+
+    # Nonexistent project
+    if not project_name or not project_id:
+        return redirect(url_for('projects'))
+
+    questions = Question.query.filter_by(project=project_id)
+
+    return render_template('lucas.html', form=question_form, questions=questions, project_name=project_name)
+
+@app.route("/projects/<string:project_name>/create-question", methods=['POST'])
+@login_required
+def create_question(project_name=None):
+
+    if not project_name:
+        return redirect(url_for('projects'))
+
+    # Checks if user is subscribed to project TODO
+
+    question_form = QuestionForm()
+    if question_form.validate_on_submit():
+        name = question_form.name.data
+        number = question_form.number.data
+
+        # Question is ralated to project id
+        project_object = Project.query.filter_by(name=project_name).first()
+        id = project_object.id
+        question = Question(name=name, number=number, project=id)
+
+        # Add it into DB
+        db.session.add(question)
+        db.session.commit()
+    
+    return redirect(url_for('project', project_name=project_name))

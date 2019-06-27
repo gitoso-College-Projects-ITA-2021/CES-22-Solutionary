@@ -1,12 +1,12 @@
-{% block title %} Project {% endblock %}
+{% block title %} Questions {% endblock %}
 {% block content %}
 
-<form action="{{url_for('project')}}" method="POST">
-    <input type="hidden" name="form-name" value="add">
-    
+<form action="/projects/{{project_name}}" method="POST">
+    <input type="hidden" name="form-name" value="create">
+
   {{ form.csrf_token }}
   <div>
-      {{ form.name(class_='form-control', placeholder='Ogata', autocomplete='off', autofocus=true)}}
+      {{ form.name(class_='form-control', placeholder='a', autocomplete='off', autofocus=true)}}
  
       <ul>
           {% for error in form.name.errors %}
@@ -21,57 +21,15 @@
   </div>
   
 
-  
-</form>
-
-<form action="{{url_for('project')}}" method="POST">
-    <input type="hidden" name="form-name" value="delete">
-
-  {{ del_form.csrf_token }}
-  <div>
-      {{ del_form.name(class_='form-control', placeholder='a', autocomplete='off', autofocus=true)}}
- 
-      <ul>
-          {% for error in del_form.name.errors %}
-          <li>{{ error }}</li>
-          {% endfor %}
-      </ul>
-      
-  </div>
-
-  <div>
-    {{ del_form.submit_button}}
-  </div>
-  
-
-<h4> Projetos </h4>
+<h4> Questoes </h4>
 <body>
-    {% for project in projects %}
+    {% for qu in questions %}
   
-    <h5>Nome: {{ project.name }} </h5>
+    <h5>Nome: {{ qu.name }} </h5>
     
   
   {% endfor %}
 </body>
-
-<h4> Subscribed </h4>
-<body>
-    {% for project in subscribed %}
-  
-    <h5>Nome: {{ project.name }} </h5>
-  
-  {% endfor %}
-</body>
-
-<h4> Meus Projetos </h4>
-<body>
-    {% for project in my_projects %}
-  
-    <h5>Nome: {{ project.name }} </h5>
-  
-  {% endfor %}
-</body>
-  
 
   
 </form>
