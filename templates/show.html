@@ -18,9 +18,7 @@ $('#save').click(function() {
     var postId = $('#post').data("post-id");
     console.log(postId);
     postId = postId.replace(/'/g, '"');
-    console.log(postId);
-    var obj = JSON.parse(postId);
-    quill.setContents(obj);
+    quill.setContents(postId);
 });
 
 </script>

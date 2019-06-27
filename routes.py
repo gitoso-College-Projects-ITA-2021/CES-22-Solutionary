@@ -277,7 +277,6 @@ def question(project_name=None, question_id=None):
     # Solutions to this question
     solutions = Solution.query.filter_by(question=question_id)
 
-
     return render_template('question-page.html', form=solution_form, question_id=question_id, 
     project_name=project_name, question=question, solutions=solutions)
 
