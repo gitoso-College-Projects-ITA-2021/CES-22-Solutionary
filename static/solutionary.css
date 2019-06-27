@@ -30,6 +30,11 @@ p {
     border-top-left-radius: 0;
 }
 
+.new-question {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
 .btn-dark {
     background-image: linear-gradient(to bottom,#2A363B  0,#2A363B  100%);
     color: #fff;
