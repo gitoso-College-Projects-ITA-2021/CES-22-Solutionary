@@ -20,6 +20,21 @@ p, label {
     color: #FECEAB;
 }
 
+.title-link {
+    text-decoration: none;
+    color: #FECEAB;
+}
+
+.title-link:hover {
+    text-decoration: none;
+    color: #FECEAB;
+}
+
+.title-link:focus {
+    text-decoration: none;
+    color: #FECEAB;
+}
+
 .question-list {
     -webkit-border-radius: 0px !important;
     -moz-border-radius: 0px !important;

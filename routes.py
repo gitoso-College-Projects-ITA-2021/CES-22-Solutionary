@@ -190,6 +190,12 @@ def project(project_name=None):
 
     return render_template('project_page.html', form=question_form, questions=questions, project_name=project_name)
 
+@app.route("/projects/<string:project_name>/create-question", methods=['GET'])
+@login_required
+def create_question_page(project_name=None):
+    question_form = QuestionForm()
+    return render_template('temp.html', project_name=project_name, question_form=question_form)
+
 @app.route("/projects/<string:project_name>/create-question", methods=['POST'])
 @login_required
 def create_question(project_name=None):

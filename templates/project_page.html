@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <h2 class="text-center">{{project_name}} <a href="" alt="Download File" data-toggle="tooltip" title="Download File"><span class="attachment glyphicon glyphicon-file" aria-hidden="true"></span></a></h2>
+        <h2 class="text-center"><a href="/projects/{{project_name}}" class="title-link">{{project_name}}</a> <a href="" alt="Download File" data-toggle="tooltip" title="Download File"><span class="attachment glyphicon glyphicon-file" aria-hidden="true"></span></a></h2>
         <br>
         <form action="{{url_for('projects')}}" method="POST">
             <div class="input-group col-lg-12">
@@ -25,7 +25,7 @@
         </div>
         
         <div class="col-lg-12 text-center" style="padding-left: 0;">
-            <button class="col-lg-12 text-center btn btn-success new-question" type="button">Post new question</button>
+            <a href="/projects/{{project_name}}/create-question" class="col-lg-12 text-center btn btn-success new-question">Post new question</a>
         </div>
 
         <div class="list-group col-lg-12">
