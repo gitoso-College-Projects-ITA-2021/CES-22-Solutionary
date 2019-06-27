@@ -210,7 +210,8 @@ def project(project_name=None):
 
     questions = Question.query.filter_by(project=project_id)
 
-    return render_template('project_page.html', form=question_form, questions=questions, project_name=project_name)
+    return render_template('project_page.html', form=question_form, questions=questions, project_name=project_name, 
+    is_subscribed=is_subscribed)
 
 @app.route("/projects/<string:project_name>/create-question", methods=['GET'])
 @login_required
@@ -279,7 +280,6 @@ def delete_question(project_name=None, question_id=None):
 def question(project_name=None, question_id=None):
     solution_form = SolutionForm()
     
-
     # Associated question
     question = Question.query.filter_by(id=question_id).first()
     question.description = json.loads('[{}]'.format(question.description))
@@ -301,18 +301,18 @@ def create_solution(project_name=None, question_id=None):
 
     # Checks if user is subscribed to project TODO
 
-    solution_form = SolutionForm()
-    if solution_form.validate_on_submit():
-        description = solution_form.description.data
-        number = solution_form.number.data
-        id = load_user( current_user.id ).id
+    content = request.get_json()
+    name = content['form']['name']
+    number = content['form']['number']
+    description = content['delta']
+    id = load_user( current_user.id ).id
 
-        # Project is ralated to question_id
-        solution = Solution(description=description, number=number, project=question_id, owner=id)
+    # Project is ralated to question_id
+    solution = Solution(description=description, number=number, question=question_id, owner=id)
 
-        # Add it into DB
-        db.session.add(solution)
-        db.session.commit()
+    # Add it into DB
+    db.session.add(solution)
+    db.session.commit()
 
     return redirect(url_for('question', project_name=project_name, question_id=question_id))
 
