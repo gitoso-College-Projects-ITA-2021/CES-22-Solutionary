@@ -30,6 +30,7 @@ class Project(UserMixin, db.Model):
     __tablename__ = "projects"
 
     id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(300), nullable=False)
     subs = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(25), unique=True, nullable=False)
     owner = db.Column(db.Integer, db.ForeignKey('users.id'))

@@ -76,6 +76,7 @@ def create_project():
 
     if proj_form.validate_on_submit():
         name = proj_form.name.data
+        description = proj_form.description.data
 
         # Check name exists
         project_object = Project.query.filter_by(name=name).first()
@@ -83,7 +84,7 @@ def create_project():
             return redirect(url_for('projects')) # Colocar mensagem de erro se nome for igual
         # Add it into DB
         id = load_user( current_user.id ).id
-        project = Project(name=name, owner=id, subs=0)
+        project = Project(name=name, owner=id, subs=0, description=description)
         db.session.add(project)
         db.session.commit()
 
@@ -204,6 +205,11 @@ def project(project_name=None):
     project_id = Project.query.filter_by(name=project_name).first().id
 
     # Is the user subscribed?
+    is_subscribed = False
+    id = load_user( current_user.id ).id
+    if User.query.join(User.projects).filter(Project.name==project_name).filter(User.id==id).all():
+        is_subscribed = True
+    
     is_owner = False
     id = load_user( current_user.id ).id
     if project_id == id:
@@ -218,7 +224,7 @@ def project(project_name=None):
     questions = Question.query.filter_by(project=project_id)
 
     return render_template('project_page.html', form=question_form, questions=questions, project_name=project_name, 
-    is_owner=is_owner)
+    is_subscribed=is_subscribed, is_owner=is_owner)
 
 @app.route("/projects/<string:project_name>/create-question", methods=['GET'])
 @login_required
