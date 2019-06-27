@@ -221,19 +221,19 @@ def create_question(project_name=None):
     # Get content JSON
     content = request.get_json()
     question_form = QuestionForm()
-    if question_form.validate_on_submit():
-        name = content['form']['name']
-        number = content['form']['number']
-        description = content['delta']
+    name = content['form']['name']
+    number = content['form']['number']
+    description = content['delta']
 
-        # Question is ralated to project id
-        project_object = Project.query.filter_by(name=project_name).first()
-        id = project_object.id
-        question = Question(description=description, name=name, number=number, project=id)
+    # Question is ralated to project id
+    print(project_name)
+    project_object = Project.query.filter_by(name=project_name).first()
+    id = project_object.id
+    question = Question(description=description, name=name, number=number, project=id)
 
-        # Add it into DB
-        db.session.add(question)
-        db.session.commit()
+    # Add it into DB
+    db.session.add(question)
+    db.session.commit()
     
     return redirect(url_for('project', project_name=project_name))
 

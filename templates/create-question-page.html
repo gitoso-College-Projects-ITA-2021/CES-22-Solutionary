@@ -65,7 +65,7 @@ $.postJSON = function(url, data, success, args) {
         BIGJSON.delta = delta;
         console.log(BIGJSON);
 
-        $.postJSON('{{url_for('create_question', project_name='toso')}}', BIGJSON, function(result) {
+        $.postJSON('{{url_for('create_question', project_name=project_name)}}', BIGJSON, function(result) {
             console.log('result', result);
         });
 
