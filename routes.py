@@ -98,6 +98,13 @@ def delete_project():
     if project_object:
         id = load_user( current_user.id ).id
         if project_object.owner == id:
+
+            # First it deletes all questions and solutions
+            #delete_question(project_name=None, question_id=None) TODO
+
+            # Unsubscribes everyone
+
+
             db.session.delete(project_object)
             db.session.commit()
         
@@ -211,11 +218,13 @@ def create_question(project_name=None):
 
     # Checks if user is subscribed to project TODO
 
+    # Get content JSON
+    content = request.get_json()
     question_form = QuestionForm()
     if question_form.validate_on_submit():
-        name = question_form.name.data
-        number = question_form.number.data
-        description = request.get_json()
+        name = content['form']['name']
+        number = content['form']['number']
+        description = content['delta']
 
         # Question is ralated to project id
         project_object = Project.query.filter_by(name=project_name).first()
@@ -230,9 +239,10 @@ def create_question(project_name=None):
 
 @app.route('/projects/<string:project_name>/delete-question', methods=['POST'])
 @login_required
-def delete_question(project_name=None):
+def delete_question(project_name=None, question_id=None):
 
-    question_id = request.form['question_id']
+    if not question_id:
+        question_id = request.form['question_id']
     # Check if question exists
     question_object = Question.query.filter_by(id=question_id).first()
     if question_object:
