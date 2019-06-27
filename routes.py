@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, jsonify
 from flask_login import LoginManager, login_user, current_user, login_required, logout_user
 from forms import *
 from app import app, db
@@ -309,11 +309,11 @@ def delete_solution(project_name=None):
         
     return redirect(url_for('project'))
 
-@app.route('/quill/<string:project_name>/<int:question_id>/', methods=['POST'])
+@app.route('/quill/<string:project_name>/<int:question_id>', methods=['POST'])
 @login_required
 def test_post_quill(project_name=None, question_id=None):
 
-    content = request.something['json']
+    content = request.get_json()
 
     print(content)
     if content:
@@ -326,13 +326,14 @@ def test_post_quill(project_name=None, question_id=None):
         
     return redirect(url_for('project'))
 
-@app.route('/quill/<string:project_name>/<int:question_id>/', methods=['GET'])
+@app.route('/quill/<string:project_name>/<int:question_id>', methods=['GET'])
 @login_required
 def test_get_quill(project_name=None, question_id=None):
 
     quill = QuillTest.query.filter_by(p_name=project_name, question_id=question_id).first()
+    print(quill.description)
 
     #else TODO
     # colocar notificação de que não foi possível deletar
         
-    return redirect(url_for('project'), text_content=quill)
+    return render_template('show.html', quill=quill)
