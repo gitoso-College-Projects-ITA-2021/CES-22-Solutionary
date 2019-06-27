@@ -24,9 +24,15 @@
             <p class="orange">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
         </div>
         
+        {% if is_subscribed %}
         <div class="col-lg-12 text-center" style="padding-left: 0;">
             <a href="/projects/{{project_name}}/create-question" class="col-lg-12 text-center btn btn-success new-question">Post new question</a>
         </div>
+        {% elif %}
+        <div class="col-lg-12 text-center" style="padding-left: 0;">
+            <a href="#" class="col-lg-12 text-center btn btn-primary new-question">Subscribe to this project</a>
+        </div>
+        {% endif %}
 
         <div class="list-group col-lg-12">
             {% for question in questions %}
@@ -55,7 +61,7 @@
             </div>
             <!-- End modal -->
             <form action="/projects/{{project_name}}/{{question.id}}" method="GET">
-                <button type="submit" class="question-list list-group-item">{{question.number}}) {{question.name}} <span class="badge">UNSOLVED</span><a href='#' class="delete-button" data-toggle="modal" data-target="#delete-modal-{{question.id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" title="Delete Project"></span></a></button>
+                <button type="submit" class="question-list list-group-item">{{question.number}}) {{question.name}} <span class="badge">UNSOLVED</span>{% if is_owner %}<a href='#' class="delete-button" data-toggle="modal" data-target="#delete-modal-{{question.id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" title="Delete Project"></span></a>{% endif %}</button>
             </form>
             {% endfor %}
         </div>
