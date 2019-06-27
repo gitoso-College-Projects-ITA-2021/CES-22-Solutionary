@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_user, current_user, login_required, 
 from forms import *
 from app import app, db
 from models import *
+import json
 
 # Configure flask login
 login = LoginManager(app)
@@ -85,7 +86,7 @@ def create_project():
         project = Project(name=name, owner=id)
         db.session.add(project)
         db.session.commit()
-    
+
     return redirect(url_for('projects'))
 
 @app.route('/delete-project', methods=['POST'])
@@ -100,7 +101,9 @@ def delete_project():
         if project_object.owner == id:
 
             # First it deletes all questions and solutions
-            #delete_question(project_name=None, question_id=None) TODO
+            questions = Questions.query.filter_by(project=project_id).all()
+            for question in questions:
+                delete_question(project_name=project_object.name, question_id=question.id) 
 
             # Unsubscribes everyone
 
@@ -158,7 +161,10 @@ def subscribe(project_name=None):
 
 @app.route('/projects/<string:project_name>/unsubscribe', methods=['POST'])
 @login_required
-def unsubscribe(project_name=None):
+def unsubscribe(project_name=None, user=None):
+
+    if not user:
+        
     if not project_name:
         return 'Not possible'   # TODO
     
@@ -273,7 +279,8 @@ def question(project_name=None, question_id=None):
 
     # Associated question
     question = Question.query.filter_by(id=question_id).first()
-    
+    question.description = json.loads('[{}]'.format(question.description))
+
     # Solutions to this question
     solutions = Solution.query.filter_by(question=question_id)
 
@@ -291,10 +298,10 @@ def create_solution(project_name=None, question_id=None):
 
     # Checks if user is subscribed to project TODO
 
-    sulution_form = SolutionForm()
-    if sulution_form.validate_on_submit():
-        description = sulution_form.description.data
-        number = sulution_form.number.data
+    solution_form = SolutionForm()
+    if solution_form.validate_on_submit():
+        description = solution_form.description.data
+        number = solution_form.number.data
         id = load_user( current_user.id ).id
 
         # Project is ralated to question_id
