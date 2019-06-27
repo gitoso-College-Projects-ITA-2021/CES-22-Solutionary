@@ -1,2 +1,2 @@
-SQLALCHEMY_DATABASE_URI = 'postgres://egycwenddjlltj:2c410505115805feb75bbf48df14ec8b58eda0b6eae07d6482a8cec6f089bab2@ec2-54-204-35-248.compute-1.amazonaws.com:5432/dcn9m8vnd8taou'
+SQLALCHEMY_DATABASE_URI = 'postgres://oubbchkqrmtejh:6eb81914af39b31ce731030a3b1efa8cc282102059c39da37c55e23a52902e88@ec2-107-20-185-16.compute-1.amazonaws.com:5432/d3ktss0b893qg7'
 # SQLALCHEMY_DATABASE_URI = 'postgres://localhost:5432'
