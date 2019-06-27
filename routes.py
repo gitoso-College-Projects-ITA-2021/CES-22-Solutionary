@@ -322,7 +322,7 @@ def create_solution(project_name=None, question_id=None):
     description = content['delta']
     id = load_user( current_user.id ).id
     owner = User.query.filter_by(id=id).first()
-    owner_name = owner.name
+    owner_name = owner.username
 
     # Project is ralated to question_id
     solution = Solution(description=description, question=question_id, owner=id, owner_name=owner_name)
