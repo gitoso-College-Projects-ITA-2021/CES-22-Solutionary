@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField
-from wtforms.validators import InputRequired, Length, EqualTo, ValidationError
+from wtforms.validators import InputRequired, Length, EqualTo, ValidationError, NumberRange
 from passlib.hash import pbkdf2_sha256
 
 from models import User
@@ -80,7 +80,7 @@ class QuestionForm(FlaskForm):
     name = StringField('name_label', 
         validators=[InputRequired(message="Question name required"), Length(min=4)])
     number = IntegerField('number_label', 
-        validators=[InputRequired(message="Question number required"), Length(min=1)])
+        validators=[InputRequired(message="Question number required"), NumberRange(min=0, max=None)])
     description = StringField('description_label', 
         validators=[InputRequired(message="Question description"), Length(min=4)])
     
@@ -90,7 +90,7 @@ class SolutionForm(FlaskForm):
     """ Solution Form """
 
     number = IntegerField('number_label', 
-        validators=[InputRequired(message="Solution number required"), Length(min=1)])
+        validators=[InputRequired(message="Solution number required"), NumberRange(min=0, max=None)])
     description = StringField('description_label', 
         validators=[InputRequired(message="Solution description"), Length(min=4)])
     
